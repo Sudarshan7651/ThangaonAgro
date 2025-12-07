@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Addnewvegetable extends Model
+{
+
+    public $timestamps=false;
+    // Table uses `vegetable_id` as primary key
+    protected $primaryKey = 'vegetable_id';
+
+   protected $fillable=[
+    'name',
+    'price',
+    'quantity',
+    'image',
+    'admin_id',
+   ];
+
+}
