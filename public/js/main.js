@@ -42,6 +42,7 @@
 
     // Hero carousel
     $(".hero-carousel").owlCarousel({
+        loop: true,
         autoplay: true,
         smartSpeed: 2000,
         items: 1,

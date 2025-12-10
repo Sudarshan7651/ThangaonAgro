@@ -5,11 +5,11 @@
             <div class="row g-4">
                 <div class="col-lg-6 col-md-6">
                     <h5 class="text-uppercase text-light mb-4">Quick Links</h5>
-                    <a class="btn btn-link" href="">About Us</a>
-                    <a class="btn btn-link" href="">Contact Us</a>
-                    <a class="btn btn-link" href="">Our Services</a>
+                    <a class="btn btn-link" href="{{ route('about') }}">About Us</a>
+                    <a class="btn btn-link" href="{{ route('contact') }}">Contact Us</a>
+                    <a class="btn btn-link" href="{{ route('about') }}">Our Services</a>
                     <a class="btn btn-link" href="">Terms & Condition</a>
-                    <a class="btn btn-link" href="">Support</a>
+                    <a class="btn btn-link" href="{{ route('about') }}">Support</a>
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <h5 class="text-uppercase text-light mb-4">Business Hours</h5>

@@ -64,6 +64,19 @@
         <div class="card p-3">
 
 <div class="table-responsive">
+    <form action="{{ route('orders') }}" method="GET" class="mb-3 d-flex align-items-center gap-2">
+    <label for="vegetable_filter" class="fw-bold">Filter</label>
+    <select name="vegetable" id="vegetable_filter" class="form-select w-auto">
+        <option value="">All Vegetables</option>
+        @foreach($vegetables as $veg)
+            <option value="{{ $veg->name }}" {{ request('vegetable') == $veg->name ? 'selected' : '' }}>
+                {{ $veg->name }}
+            </option>
+        @endforeach
+    </select>
+    <button type="submit" class="btn btn-primary">Filter</button>
+</form>
+
 <table class="table table-hover align-middle" >
     <thead>
         <tr>

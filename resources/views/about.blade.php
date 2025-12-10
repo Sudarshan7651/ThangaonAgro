@@ -42,6 +42,80 @@
 
 @include('layouts.header')
 
+
+
+@section('title', 'About Us')
+
+<!-- About Us Section Start -->
+<div class="container-fluid py-5" style="background-color: #f8f9fa;">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold" style="color: #1b5e20;">ThangaonAgro</h2>
+            <p class="lead text-muted mx-auto" style="max-width: 700px;">
+                Delivering fresh, premium, and exotic vegetables across India. 
+                We connect farms to your kitchen, ensuring quality, freshness, and timely delivery.
+            </p>
+        </div>
+
+        <div class="row align-items-center g-5">
+            <!-- Image Section -->
+            <div class="col-lg-6 col-md-12">
+                <img src="{{ asset('images/dummyOffice.webp') }}" class="img-fluid rounded shadow-sm" alt="Fresh Vegetables">
+            </div>
+
+            <!-- Text Section -->
+            <div class="col-lg-6 col-md-12">
+                <h3 class="fw-bold mb-3" style="color: #1b5e20;">Our Mission</h3>
+                <p class="text-muted mb-4">
+                    To provide hotels, restaurants, and bulk buyers with fresh and high-quality exotic vegetables directly from trusted farms. 
+                    We aim to make vegetable supply seamless, reliable, and cost-effective.
+                </p>
+
+                <h3 class="fw-bold mb-3" style="color: #1b5e20;">Our Values</h3>
+                <ul class="list-group list-group-flush mb-4">
+                    <li class="list-group-item">🌱 Freshness Guaranteed</li>
+                    <li class="list-group-item">🚚 Timely Delivery</li>
+                    <li class="list-group-item">🤝 Trusted Farmers & Vendors</li>
+                    <li class="list-group-item">💰 Competitive Pricing</li>
+                    <li class="list-group-item">💬 Easy Communication & Support</li>
+                </ul>
+
+                <a href="{{ route('product') }}" class="btn btn-success fw-bold px-4 py-2">
+                    Explore Vegetables
+                </a>
+            </div>
+        </div>
+
+        <!-- Optional Team Section -->
+        <div class="text-center mt-5 mb-4">
+            <h3 class="fw-bold" style="color: #1b5e20;">Meet Our Team</h3>
+            <p class="text-muted mx-auto" style="max-width: 700px;">Dedicated people behind your daily fresh vegetable delivery.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4 text-center">
+                <img src="{{ asset('images/dummy1.jpg') }}" class=" mb-3" alt="Team Member" style="width:150px;height:150px;">
+                <h5 class="fw-bold">Rahul Sharma</h5>
+                <p class="text-muted">Founder & CEO</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <img src="{{ asset('images/dummy2.webp') }}" class="mb-3" alt="Team Member" style="width:150px;height:150px;">
+                <h5 class="fw-bold">Meera Raj</h5>
+                <p class="text-muted">Operations Head</p>
+            </div> 
+            <div class="col-md-4 text-center">
+                <img src="{{ asset('images/dummy3.jpg') }}" class=" mb-3" alt="Team Member" style="width:150px;height:150px;">
+                <h5 class="fw-bold">Varun Kumar</h5>
+                <p class="text-muted">Supply Chain Manager</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- About Us Section End -->
+
+
+
 @include('layouts.footer')
 
 @include('layouts.copyright')

@@ -80,11 +80,11 @@ class UserController extends Controller
 
 
          $data = $request->validate([
-            'businessname'     => 'required',
-            'contact'          => 'required',
-            'togrow'           => 'required',
-            'duration'         => 'required',
-            'monthlysupply'    => 'required',
+            'businessname' => 'required',
+            'contact'  => 'required',
+            'togrow'  => 'required',
+            'duration'  => 'required',
+            'monthlysupply' => 'required',
             ]);
 
             

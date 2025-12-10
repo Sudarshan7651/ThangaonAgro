@@ -46,7 +46,7 @@ class AdminController extends Controller
     
     public function orders() {
 
-        
+       
 
         $orders=Order::where('admin_id', Auth::id())->get();
         $vegetables = Addnewvegetable::where('admin_id', Auth::id())->get();
@@ -73,7 +73,7 @@ class AdminController extends Controller
     public function logout(){
 
     Auth::logout();
-    return redirect()->route('register');
+    return redirect()->route('index');
 
     }
 
@@ -185,10 +185,11 @@ class AdminController extends Controller
             'password' => 'required',
         ]);
 
-
-
         if (Auth::attempt($credentials)) {
             return redirect()->route('dashboard');
+        }
+        else {
+            return back()->with('error', 'Login failed. Please check your credentials.');
         }
 
     }

@@ -30,6 +30,20 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+<style>
+    .product-card {
+    position: relative;
+    padding-bottom: 40px; /* space so text does not overlap */
+}
+
+.posted-time {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 13px;
+    color: #6c757d; /* muted text */
+}
+</style>
 </head>
 
 <body>
@@ -56,19 +70,19 @@
                 <div class="col-lg-7 col-md-12">
                     <div class="hero-carousel owl-carousel">
                         <div class="item">
-                            <img class="img-fluid rounded" src="img/basil.jpg" alt="Basil">
+                            <img class="img-fluid rounded" src="images/celeryFarm.webp" alt="Celery">
                         </div>
                         <div class="item">
-                            <img class="img-fluid rounded" src="img/brocoli.avif" alt="Broccoli">
+                            <img class="img-fluid rounded" src="images/BroccoliFarm.webp" alt="Broccoli">
                         </div>
                         <div class="item">
-                            <img class="img-fluid rounded" src="img/cherryTomato.jpg" alt="Cherry Tomato">
+                            <img class="img-fluid rounded" src="images/CherrytomatoFarm.webp" alt="Cherry Tomato">
                         </div>
                         <div class="item">
-                            <img class="img-fluid rounded" src="img/iceberg.jpg" alt="Iceberg">
+                            <img class="img-fluid rounded" src="images/parsleyFarm.webp" alt="Parsley">
                         </div>
                         <div class="item">
-                            <img class="img-fluid rounded" src="img/lemmonGrass.jpg" alt="Lemon Grass">
+                            <img class="img-fluid rounded" src="images/zucchiniFarm.webp" alt="Zucchini">
                         </div>
                     </div>
                     <!-- View All Button -->
@@ -110,14 +124,18 @@
 
                         </div>
                     </div>
+                    <p class="text-muted small posted-time">
+                        Posted {{ $veg->created_at->diffForHumans() }}
+                        </p>
                 </div>
+                        
+
             </div>
             @endforeach
         </div>
     </div>
 </div>
 <!-- Products Cards Section End -->
-
 
 
 
