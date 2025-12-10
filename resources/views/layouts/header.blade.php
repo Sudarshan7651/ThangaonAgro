@@ -1,5 +1,5 @@
 <!-- Navbar Start -->
-<div class="container-fluid bg-white sticky-top">
+<div class="container-fluid bg-white shadow-lg sticky-top">
     <div class="container">
         <nav class="navbar navbar-expand-lg bg-white navbar-light p-lg-0">
 <a class="navbar-brand" href="{{ route('index') }}" 

@@ -41,6 +41,8 @@ class AdminController extends Controller
     
     public function orders() {
 
+        
+
         $orders=Order::where('admin_id', Auth::id())->get();
         $vegetables = Addnewvegetable::where('admin_id', Auth::id())->get();
 

@@ -78,8 +78,8 @@
                         <td>{{$veg->price}}</td>
                         <td>{{$veg->quantity}} Kg</td>
                         <td>
-                            <a class="btn btn-sm btn-primary" href="{{ route('edit', $veg->vegetable_id)}}">Edit</a>
-                         <form action="{{ route('delete', $veg->vegetable_id)}}" method="POST" style="display:inline;">  @csrf @method('PUT') <button type="submit" class="btn btn-sm btn-danger">Delete</button>  </form>
+                            <a class="btn btn-sm btn-primary mt-2" href="{{ route('edit', $veg->vegetable_id)}}">Edit</a>
+                         <form action="{{ route('delete', $veg->vegetable_id)}}" method="POST" style="display:inline;">  @csrf @method('PUT') <button type="submit" class="btn btn-sm btn-danger mt-2">Delete</button>  </form>
                         </td>
                     </tr>
 

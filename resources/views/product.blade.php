@@ -42,70 +42,38 @@
 
 @include('layouts.header')
 
-<!-- Our Products Heading Start -->
+<!-- Our Products Section -->
 <div class="container-fluid py-5">
     <div class="container">
         <div class="text-center mb-5">
             <h2 class="display-6 fw-bold mb-3">Our Featured Products</h2>
-            <p class="lead text-muted">Discover our premium welding products and supplies</p>
+            <p class="lead text-muted">Explore our premium fresh vegetables</p>
         </div>
-        <div class="row g-4">
 
-            <!-- Card 1 -->
-            <div class="col-lg-3 col-md-6 col-sm-12">
-                <div class="product-card">
-                    <div class="card-image-wrapper">
-                        <img src="img/basil.jpg" alt="Product 1" class="card-img-top">
-                    </div>
-                    <div class="card-body p-4">
-                        <h5 class="card-title fw-bold mb-2">Premium Rod</h5>
-                        <p class="card-text text-muted mb-3">High-quality welding rod suitable for all welding applications with excellent arc stability.</p>
-                    </div>
-                </div>
+        <!-- Product 1 -->
+       @foreach($vegetables as $veg)
+
+        <div class="product-row fade-product product d-flex align-items-center flex-wrap mb-5">
+            <div class="col-lg-6">
+                <img src="{{ asset($veg->image) }}" class="img-fluid rounded shadow">
             </div>
 
-            <!-- Card 2 -->
-            <div class="col-lg-3 col-md-6 col-sm-12">
-                <div class="product-card">
-                    <div class="card-image-wrapper">
-                        <img src="img/brocoli.avif" alt="Product 2" class="card-img-top">
-                    </div>
-                    <div class="card-body p-4">
-                        <h5 class="card-title fw-bold mb-2">Safety Equipment Kit</h5>
-                        <p class="card-text text-muted mb-3">Complete safety equipment including helmet, gloves, and apron for complete protection.</p>
-                    </div>
-                </div>
+            <div class="col-lg-6 p-4 product fade-product">
+                <h3 style="font-size:60px;">{{ $veg->name }}</h3>
+                <p class="text-muted" style="font-size:20px;">
+                    {{ $veg->info }}
+                </p>
             </div>
-
-            <!-- Card 3 -->
-            <div class="col-lg-3 col-md-6 col-sm-12">
-                <div class="product-card">
-                    <div class="card-image-wrapper">
-                        <img src="img/cherryTomato.jpg" alt="Product 3" class="card-img-top">
-                    </div>
-                    <div class="card-body p-4">
-                        <h5 class="card-title fw-bold mb-2">MIG Welding Wire</h5>
-                        <p class="card-text text-muted mb-3">Professional-grade MIG welding wire for smooth and precise welding operations.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 4 -->
-            <div class="col-lg-3 col-md-6 col-sm-12">
-                <div class="product-card">
-                    <div class="card-image-wrapper">
-                        <img src="img/iceberg.jpg" alt="Product 4" class="card-img-top">
-                    </div>
-                    <div class="card-body p-4">
-                        <h5 class="card-title fw-bold mb-2">Welding Clamps Set</h5>
-                        <p class="card-text text-muted mb-3">Heavy-duty welding clamps for holding and positioning workpieces securely.</p>
-                    </div>
-                </div>
-            </div>
-
         </div>
+
+        @endforeach
+
+
+       
+
     </div>
 </div>
+
 <!-- Our Products end -->
 
 
@@ -131,6 +99,20 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+    <script>
+        const productObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if(entry.isIntersecting){
+            entry.target.classList.add('show');
+        }
+    });
+});
+
+document.querySelectorAll('.fade-product').forEach(product => {
+    productObserver.observe(product);
+});
+
+    </script>
 </body>
 
 </html>

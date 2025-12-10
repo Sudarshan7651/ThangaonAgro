@@ -58,7 +58,7 @@
         <h2 class="mb-4">Special Orders</h2>
 
         <div class="card p-3">
-
+<div class="table-responsive">
 <table class="table table-hover align-middle">
     <thead>
         <tr>
@@ -89,7 +89,7 @@
     </tbody>
 
 </table>
-
+</div>
 
         </div>
 

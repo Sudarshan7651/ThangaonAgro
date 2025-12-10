@@ -18,7 +18,9 @@ class UserController extends Controller
     }
 
     public function product() {
-        return view('product');
+
+        $vegetables = \DB::table('exotic_vegetables')->get(); 
+        return view('product', compact('vegetables') );
     }
 
      public function contact() {

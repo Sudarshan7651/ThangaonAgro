@@ -95,6 +95,7 @@
         <h3 class="mt-5 mb-3">Recent Orders</h3>
 
         <div class="card p-3">
+            <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -133,6 +134,7 @@
                     </tr>
                 </tbody>
             </table>
+            </div>
         </div>
 
     </div>

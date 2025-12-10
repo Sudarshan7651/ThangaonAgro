@@ -63,6 +63,8 @@
 
         <div class="card p-3">
 
+
+<div class="table-responsive">
 <table class="table table-hover align-middle" >
     <thead>
         <tr>
@@ -81,66 +83,91 @@
         <tr>
             <td>{{ $loop->iteration }}</td>
             <td>{{ $order->businessname }}</td>
-            <td>{{ $order->contact }} <span>--></span> <a href="https://wa.me/{{ $order->contact }}" target="_blank">
+            <td>{{ $order->contact }} <span>--></span> <a href="https://wa.me/91{{ $order->contact }}" target="_blank">
     <i class="fa-brands fa-whatsapp" style="font-size: 30px; color: green;"></i>
-</a></td>
+</a></td> 
             <td>{{ $order->delivery_location }}</td>
             <td>{{ $order->status }}</td>
-            <td><a class="btn btn-sm btn-primary" href="{{ route('confirmOrder', $order->id)}}">Confirm</a>
-            <a class="btn btn-sm btn-danger" href="{{ route('cancelOrder', $order->id)}}">Cancel</a>
+            <td><a class="btn btn-sm btn-primary mt-2" href="{{ route('confirmOrder', $order->id)}}" onclick="return confirm('Are you sure you want to confirm this order?')">Confirm</a>
+            <a class="btn btn-sm btn-danger mt-2" href="{{ route('cancelOrder', $order->id)}}">Cancel</a>
            </td>
             <td><button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#details{{ $order->id }}">View Details</button>
            </td>
 
 
 <!-- MODAL -->
+<!-- MODAL -->
 <div class="modal fade" id="details{{ $order->id }}">
-    <div class="modal-dialog modal-lg">
-     
-        <div class="modal-content p-3" style="display: flex;flex-direction: row;">
-                
-        <div class="orderinfo" style="width:50%">
-            @php
-                $veg = $vegetables->where('vegetable_id', $order->vegetable_id)->first();
-            @endphp
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
 
-            <h4 class="mb-3">Order Details</h4>
+            <!-- Header -->
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title">Order Details</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
 
-            <p><strong>Business Name:</strong> {{ $order->businessname }}</p>
-            <p><strong>Contact:</strong> {{ $order->contact }}</p>
-            <p><strong>Delivery Location:</strong> {{ $order->delivery_location }}</p>
-            <p><strong>Status:</strong> {{ $order->status }}</p>
-        </div>
-        <div class="vegdetails"  style="width:50%">
-            <h5 class="mt-4 mb-3">Vegetable Details</h5>
+            <!-- Body -->
+            <div class="modal-body">
 
-            @if($veg)
-            <h5 class="fw-bold">{{ $veg->name }}</h5>
-            <img src="{{ asset('images/' . $veg->image) }}" width="200" height="200" class="mb-2">
-            <p><strong>Quantity:</strong> {{ $veg->quantity }} Kg</p>
-            <p><strong>Price:</strong> {{ $veg->price }}</p>
-            @else
-            <p class="text-danger">Vegetable details not found.</p>
-            @endif
-             <a class="btn btn-sm btn-primary" href="{{ route('edit', $veg->vegetable_id)}}">Edit</a>
-             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-    Cancel
-</button>
+                @php
+                    $veg = $vegetables->where('vegetable_id', $order->vegetable_id)->first();
+                @endphp
 
-        </div>
+                <div class="row">
 
+                    <!-- Left Side -->
+                    <div class="col-md-6 mb-3">
+                        <h5 class="fw-bold mb-3">Customer Information</h5><hr>
+                        <p class="mb-2"><strong>Business Name:</strong> {{ $order->businessname }}</p>
+                        <p class="mb-2"><strong>Contact:</strong> {{ $order->contact }}</p>
+                        <p class="mb-2"><strong>Delivery Location:</strong> {{ $order->delivery_location }}</p>
+                        <p class="mb-2"><strong>Status:</strong> {{ $order->status }}</p>
+                    </div>
+
+                    <!-- Right Side -->
+                    <div class="col-md-6 mb-3">
+                        <h5 class="fw-bold mb-3">Vegetable Details</h5><hr>
+                        @if($veg)
+                            <div class="mb-3">
+                                <img src="{{ asset('images/' . $veg->image) }}" 
+                                     class="img-fluid rounded shadow-sm"
+                                     style="max-width: 300px;">
+                            </div>
+                            <h6 class="fw-bold">{{ $veg->name }}</h6>
+                            <p class="mb-2"><strong>Quantity:</strong> {{ $veg->quantity }} Kg</p>
+                            <p class="mb-2"><strong>Price:</strong> ₹{{ $veg->price }}</p>
+
+                            <a class="btn btn-primary btn-sm" href="{{ route('edit', $veg->vegetable_id) }}">
+                                Edit
+                            </a>
+
+                        @else
+                            <p class="text-danger">Vegetable details not found.</p>
+                        @endif
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Footer -->
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+            </div>
 
         </div>
     </div>
 </div>
 
 
-
         </tr>
         @endforeach
     </tbody>
 </table>
-
+</div>
 
 
         </div>

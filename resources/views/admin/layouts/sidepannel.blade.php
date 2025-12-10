@@ -1,47 +1,54 @@
 <head>
 <style>
-/* Sidebar Base */
+/* Sidebar */
 .sidebar {
     width: 240px;
     height: 100vh;
-    background:black;
     padding: 20px;
     position: fixed;
+    background: rgba(1, 1, 1, 0.46);
     top: 0;
+    backdrop-filter: blur(6px);
     left: 0;
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
     color: white;
     transition: transform 0.3s ease;
+    z-index: 2000;
 }
-
 .sidebar a {
     display: block;
     padding: 12px 15px;
     margin: 8px 0;
-    color: white;
-    background: rgba(255,255,255,0.1);
+    color: black;
+    background:aliceblue;
     border-radius: 8px;
     text-decoration: none;
     transition: background 0.3s;
 }
-
 .sidebar a:hover {
-    background: rgba(255,255,255,0.2);
+    background: #1b5e20d;
 }
 
-/* Logout Button */
+/* Logout button */
 .sidebar button {
+    background: orange;
     width: 100%;
 }
 
-/* Toggle Button (Mobile Only) */
+/* Content shifts in desktop */
+.content {
+    margin-left: 250px;
+    transition: margin-left 0.3s ease;
+}
+
+/* Sidebar Toggle Button */
 .sidebar-toggle {
     display: none;
     position: fixed;
     top: 15px;
     left: 15px;
-    z-index: 999;
+    z-index: 3000;
     background: #0d6efd;
     color: white;
     border: none;
@@ -50,42 +57,47 @@
     font-size: 18px;
 }
 
-/* MOBILE RESPONSIVE */
+/* MOBILE */
 @media(max-width: 768px) {
     .sidebar {
-        transform: translateX(-260px); /* Hide sidebar */
+        transform: translateX(-260px);
     }
     .sidebar.open {
-        transform: translateX(0); /* Show sidebar */
+        transform: translateX(0);
     }
     .sidebar-toggle {
         display: block;
     }
+    .content {
+        margin-left: 0 !important;
+        margin-top: 60px;
+    }
 }
 </style>
-</head>   
-   
-   <!-- Sidebar -->
-    <button class="sidebar-toggle" onclick="toggleSidebar()">☰ Menu</button>
-    <div class="sidebar">
-        <h4 class="text-center mb-4">Hello,{{ Auth::user()->businessName}}</h4>
-        <a href="{{route('dashboard')}}">Dashboard</a>
-        <a href="{{route('vegetableslist')}}" >Vegetables List</a>
-        <a href="{{route('addvegetable')}}">Add Vegetable</a>
-        <a href="{{route('orders')}}">Orders</a>
-        <a href="{{route('specialOrders')}}">Special Orders</a>
-        <a href="{{route('contractFarmingPage')}}">Contract Farming</a>
-  <form action="{{route('logout')}}" method="post" style="padding:12px;"> 
-       @csrf 
-    <button type="submit" class="btn btn-danger">logOut</button>
+</head>
 
+<!-- Toggle Button -->
+<button class="sidebar-toggle" onclick="toggleSidebar()">☰ Menu</button>
+
+<!-- Sidebar -->
+<div class="sidebar " id="sidebar">
+    <h4 class="text-center mb-4" style="margin-top: 60px;">Hello, {{ Auth::user()->businessName }}</h4>
+
+    <a href="{{route('dashboard')}}">Dashboard</a>
+    <a href="{{route('vegetableslist')}}">Vegetables List</a>
+    <a href="{{route('addvegetable')}}">Add Vegetable</a>
+    <a href="{{route('orders')}}">Orders</a>
+    <a href="{{route('specialOrders')}}">Special Orders</a>
+    <a href="{{route('contractFarmingPage')}}">Contract Farming</a>
+
+    <form action="{{route('logout')}}" method="post" class="mt-3">
+        @csrf
+        <button type="submit" class="btn btn-danger">Logout</button>
     </form>
-    </div>
+</div>
 
-    <script>
-    function toggleSidebar() {
-        document.querySelector(".sidebar").classList.toggle("open");
-    }
+<script>
+function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("open");
+}
 </script>
-
-    

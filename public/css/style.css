@@ -645,3 +645,13 @@
     font-weight: 700;
     font-size: 0.95rem;
 }
+.product{
+    opacity: 0;
+    transform: translateX(40px);
+    transition: all 0.8s ease-in-out;
+}
+
+.product.show {
+    opacity: 1;
+    transform: translateY(0);
+}
