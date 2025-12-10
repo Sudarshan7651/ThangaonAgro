@@ -92,7 +92,7 @@ class UserController extends Controller
             $contract = Contractfarming::create($data);
 
             if ($contract) {
-                return redirect()->route('login');
+                return redirect()->route('index');
             }
 
          return back()->with('error', ' failed');

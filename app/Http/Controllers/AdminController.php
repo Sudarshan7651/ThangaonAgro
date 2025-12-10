@@ -56,6 +56,8 @@ class AdminController extends Controller
     }
 
     public function specialOrders() {
+        // Delete special orders older than 1 day
+    Specialorder::where('created_at', '<', now()->subDay())->delete();
 
         $orders = Specialorder::orderBy('id', 'DESC')->get();
         return view('admin.specialOrders', compact('orders'));
@@ -63,6 +65,10 @@ class AdminController extends Controller
     }
 
     public function contractFarmingPage() {
+
+        
+        // Delete special orders older than 1 day
+    Contractfarming::where('created_at', '<', now()->subDay())->delete();
 
         $contractfarmingorders=Contractfarming::all();
         return view('admin.contractFarming', compact('contractfarmingorders'));

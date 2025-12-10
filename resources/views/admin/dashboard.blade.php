@@ -118,9 +118,10 @@
                             @php
                                 $badgeClass = '';
                                 if($recent->status == 'confirmed') $badgeClass = 'bg-success';
+                                elseif($recent->status == 'pending') $badgeClass = 'bg-info';
                                 elseif($recent->status == 'canceled') $badgeClass = 'bg-danger';
                             @endphp
-                            <span class="badge {{ $badgeClass }}">{{ $recent->status }}</span>
+                            <span class="badge {{ $badgeClass }} p-2">{{ $recent->status }}</span>
                         </td>
                         <td>{{ $recent->created_at->format('Y-m-d') }}</td>
                     </tr>

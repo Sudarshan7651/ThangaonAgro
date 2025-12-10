@@ -62,7 +62,7 @@
 <table class="table table-hover align-middle">
     <thead>
         <tr>
-            <th>#Contract Farming ID</th>
+            <th>#SR.NO</th>
             <th>Business Name</th>
             <th>Contact</th>
             <th>togrow</th>
@@ -74,7 +74,7 @@
     <tbody>
         @forelse ($contractfarmingorders as $contractfarmingorder)
             <tr>
-                <td>{{ $contractfarmingorder->id }}</td>
+                <td>{{ $loop->iteration }}</td>
                 <td>{{ $contractfarmingorder->businessname }}</td>
                 <td>{{ $contractfarmingorder->contact }}</td>
                 <td>{{ $contractfarmingorder->togrow }}</td>

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Contractfarming extends Model
 {
 
-    public $timestamps=false;
+    public $timestamps=true;
     // Table uses `vegetable_id` as primary key
     protected $primaryKey = 'vegetable_id';
 

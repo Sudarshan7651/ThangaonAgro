@@ -74,7 +74,7 @@
     <tbody>
         @forelse ($orders as $order)
             <tr>
-                <td>{{ $order->id }}</td>
+                <td>{{ $loop->iteration }}</td>
                 <td>{{ $order->business_name }}</td>
                 <td>{{ $order->contact }}</td>
                 <td>{{ $order->requirements }}</td>
