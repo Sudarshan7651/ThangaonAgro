@@ -63,7 +63,6 @@
 
         <div class="card p-3">
 
-
 <div class="table-responsive">
 <table class="table table-hover align-middle" >
     <thead>
@@ -75,6 +74,7 @@
             <th>Status</th>
             <th>Action</th>
             <th>Details</th>
+            <th>invoice</th>
         </tr>
     </thead>
 
@@ -93,6 +93,15 @@
            </td>
             <td><button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#details{{ $order->id }}">View Details</button>
            </td>
+            <td>
+
+                @if($order->status === 'confirmed')
+                    <a class="btn btn-sm btn-primary" href="{{ route('invoice', $order->id)}}">View Invoice</a>
+                @else
+                    <button class="btn btn-sm btn-secondary" disabled>Not Available</button>
+                @endif
+            </td>
+    
 
 
 <!-- MODAL -->

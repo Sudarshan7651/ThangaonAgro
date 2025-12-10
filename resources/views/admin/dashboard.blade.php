@@ -92,50 +92,44 @@
 
 
         <!-- Recent Orders -->
-        <h3 class="mt-5 mb-3">Recent Orders</h3>
+<h3 class="mt-5 mb-3">Recent Orders</h3>
 
-        <div class="card p-3">
-            <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
+<div class="card p-3">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#ID</th>
+                    <th>Business Name</th>
+                    <th>Contact</th>
+                    <th>Delivery Location</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($recents as $recent)
                     <tr>
-                        <th>#ID</th>
-                        <th>Customer</th>
-                        <th>Vegetable</th>
-                        <th>Quantity</th>
-                        <th>Status</th>
-                        <th>Date</th>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $recent->businessname }}</td>
+                        <td>{{ $recent->contact }}</td>
+                        <td>{{ $recent->delivery_location }}</td>
+                        <td>
+                            @php
+                                $badgeClass = '';
+                                if($recent->status == 'confirmed') $badgeClass = 'bg-success';
+                                elseif($recent->status == 'canceled') $badgeClass = 'bg-danger';
+                            @endphp
+                            <span class="badge {{ $badgeClass }}">{{ $recent->status }}</span>
+                        </td>
+                        <td>{{ $recent->created_at->format('Y-m-d') }}</td>
                     </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1023</td>
-                        <td>Rahul Sharma</td>
-                        <td>Tomatoes</td>
-                        <td>5 Kg</td>
-                        <td><span class="badge bg-success">Delivered</span></td>
-                        <td>2025-11-28</td>
-                    </tr>
-                    <tr>
-                        <td>1024</td>
-                        <td>Meera Raj</td>
-                        <td>Potatoes</td>
-                        <td>3 Kg</td>
-                        <td><span class="badge bg-warning">Pending</span></td>
-                        <td>2025-11-29</td>
-                    </tr>
-                    <tr>
-                        <td>1025</td>
-                        <td>Varun Kumar</td>
-                        <td>Carrots</td>
-                        <td>2 Kg</td>
-                        <td><span class="badge bg-danger">Cancelled</span></td>
-                        <td>2025-11-29</td>
-                    </tr>
-                </tbody>
-            </table>
-            </div>
-        </div>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+
 
     </div>
     <div>

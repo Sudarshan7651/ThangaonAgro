@@ -21,8 +21,13 @@ class AdminController extends Controller
 
         if(Auth::check()){
 
+            $recents=Order::where('admin_id', Auth::id())
+                        ->orderBy('created_at', 'desc')
+                        ->take(5)
+                        ->get();
+
             $orders=Order::all()->where('admin_id', Auth::id());
-            return view('admin.dashboard', compact('orders'));
+            return view('admin.dashboard', compact('orders', 'recents') );
 
         }
         else{
@@ -202,6 +207,7 @@ class AdminController extends Controller
             'status' => 'pending',
             'admin_id' => $request->admin_id,
             'vegetable_id' => $request->vegetable_id,
+            'invoice' => $request->invoice,
         ]);
 
         return redirect()->back()->with('success', 'Order Placed Successfully!');
@@ -248,6 +254,17 @@ class AdminController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Order Placed Successfully!');
+    }
+
+    public function invoice($order_id){
+
+        $order = Order::find($order_id);
+        
+        $vegetables = Addnewvegetable::where('admin_id', Auth::id())->get();
+        if ($order) {
+            return view('admin.invoice', compact('order', 'vegetables'));
+        }
+        return redirect()->back()->with('error', 'Order not found.');
     }
 
 

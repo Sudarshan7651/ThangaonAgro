@@ -18,6 +18,7 @@ class Order extends Model
     'status',
     'admin_id',
     'vegetable_id',
+    'invoice',
 ];
 
 }

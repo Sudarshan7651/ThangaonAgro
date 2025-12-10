@@ -95,12 +95,12 @@
             @foreach($vegetables as $veg)
 
             <div class="col-lg-3 col-md-6 col-sm-12">
-                <div class="product-card">
+                <div class="product-card" onclick="location.href='{{ route('orderFormPage', [$veg->admin_id, $veg->vegetable_id ]) }}'">
                     <div class="card-image-wrapper">
                         <img src="{{ asset('images/' . $veg->image) }}" alt="{{ $veg->name }}" class="card-img-top">
                     </div>
                     <div class="card-body p-4">
-                       <h3>{{ $veg->admin_id}}</h3>
+                       <!-- <h3>{{ $veg->admin_id}}</h3> -->
                         <h5 class="card-title fw-bold mb-2">{{ $veg->name }}</h5>
                         <p class="text mb-3">Available Stock: {{ $veg->quantity }} Kg</p>
                         <div class="d-flex justify-content-between align-items-center">

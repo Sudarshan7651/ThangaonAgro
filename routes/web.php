@@ -60,3 +60,5 @@ Route::get('/contractFarmingPage', [AdminController::class, 'contractFarmingPage
 Route::get('/confirmOrder/{order_id}', [AdminController::class, 'confirmOrder'])->name('confirmOrder');
 
 Route::get('/cancelOrder/{order_id}', [AdminController::class, 'cancelOrder'])->name('cancelOrder');
+
+Route::get('/invoice/{order_id}', [AdminController::class, 'invoice'])->name('invoice');

@@ -137,7 +137,26 @@
 
  <div class="order-card">
 
-    <div class="order-flex">
+    <div class="order-flex mt-5 mb-5">
+
+
+         <!-- Right Side -->
+                    <div class="col-md-6 mb-3">
+                        <h2 class="fw-bold mb-3">Vegetable Details</h2><hr>
+                        @if($veg)
+                            <div class="mb-3">
+                                <img src="{{ asset('images/' . $veg->image) }}" 
+                                     class="img-fluid rounded shadow-sm"
+                                     style="max-width: 500px;">
+                            </div>
+                            <h3 class="fw-bold">{{ $veg->name }}</h3>
+                            <p class="mb-2"><strong>Quantity:</strong> {{ $veg->quantity }} Kg</p>
+                            <p class="mb-2"><strong>Price:</strong> ₹{{ $veg->price }}</p>
+
+                        @else
+                            <p class="text-danger">Vegetable details not found.</p>
+                        @endif
+                    </div>
 
         
 
@@ -146,14 +165,17 @@
 
             <h4>Your Details</h4>
 
+            
+
             <form action="{{ route('storeOrder') }}" method="POST">
                 @csrf
 
             
-                <h1>{{$veg->admin_id}}</h1>
+                <!-- <h1>{{$veg->admin_id}}</h1> -->
 
                 <input type="hidden" name="admin_id" value="{{ $veg->admin_id }}">
                 <input type="hidden" name="vegetable_id" value="{{ $veg->vegetable_id }}">
+                <input type="hidden" name="invoice" value="Null">
 
                 <div class="form-group">
                     <label>Business Name <span style="color:red">*</span></label>
