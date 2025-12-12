@@ -82,20 +82,18 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($vegetables as $vegetable)
                     <tr>
                         <td>{{ $vegetable->name }}</td>
                         <td>{{ $vegetable->quantity }} Kg</td>
                         <td>{{ number_format($vegetable->price, 2) }}</td>
                         <td>{{ number_format($vegetable->price * $vegetable->quantity, 2) }}</td>
                     </tr>
-                @endforeach
             </tbody>
         </table>
 
         {{-- Grand Total --}}
         <div class="total-box mt-3">
-            <strong>Grand Total: ₹{{ number_format($vegetables->sum(fn($v) => $v->price * $v->quantity), 2) }}</strong>
+                <strong>Grand Total: ₹{{ number_format($vegetable->price * $order->quantity, 2) }}</strong>
         </div>
 
         <div class="d-flex justify-content-between mt-3">

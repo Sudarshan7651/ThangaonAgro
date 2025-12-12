@@ -27,6 +27,7 @@ class AdminController extends Controller
                         ->get();
 
             $orders=Order::all()->where('admin_id', Auth::id());
+            
             return view('admin.dashboard', compact('orders', 'recents') );
 
         }
@@ -267,9 +268,9 @@ class AdminController extends Controller
 
         $order = Order::find($order_id);
         
-        $vegetables = Addnewvegetable::where('admin_id', Auth::id())->get();
+        $vegetable = Addnewvegetable::where('vegetable_id', $order->vegetable_id)->first();
         if ($order) {
-            return view('admin.invoice', compact('order', 'vegetables'));
+            return view('admin.invoice', compact('order', 'vegetable'));
         }
         return redirect()->back()->with('error', 'Order not found.');
     }
