@@ -26,9 +26,30 @@ class AdminController extends Controller
                         ->take(5)
                         ->get();
 
+            $monthlyRevenue = \DB::table('orders')
+                            ->join('addnewvegetables', 'orders.vegetable_id', '=', 'addnewvegetables.vegetable_id')
+                            ->where('orders.status', 'confirmed')
+                            ->where('orders.admin_id', Auth::id())
+                            ->selectRaw('MONTH(orders.created_at) as month, SUM(addnewvegetables.price * addnewvegetables.quantity) as revenue')
+                            ->groupBy('month')
+                            ->pluck('revenue', 'month')
+                            ->toArray();
+                                            
+                            
+                // Most Sold Vegetables
+            $mostSoldVegetables = \DB::table('orders')
+                ->join('addnewvegetables', 'orders.vegetable_id', '=', 'addnewvegetables.vegetable_id')
+                ->where('orders.status', 'confirmed')
+                ->where('orders.admin_id', Auth::id())
+                ->selectRaw('addnewvegetables.name, SUM(addnewvegetables.quantity) as total_quantity')
+                ->groupBy('addnewvegetables.name')
+                ->orderByDesc('total_quantity')
+                ->get();
+
+        
             $orders=Order::all()->where('admin_id', Auth::id());
             
-            return view('admin.dashboard', compact('orders', 'recents') );
+            return view('admin.dashboard', compact('orders', 'recents', 'monthlyRevenue','mostSoldVegetables') );
 
         }
         else{

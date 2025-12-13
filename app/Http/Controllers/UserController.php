@@ -46,7 +46,9 @@ class UserController extends Controller
 
     public function orderFormPage($admin_id, $vegetable_id) {
 
-        $veg = Addnewvegetable::where('admin_id', $admin_id)->first();
+        $veg = Addnewvegetable::where('admin_id', $admin_id)
+                                ->where('vegetable_id',$vegetable_id)
+                                ->first();
                         
         return view('orderform', compact('veg') );
     } 

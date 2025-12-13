@@ -185,6 +185,13 @@
                         <form action="{{ route('Specialorder') }}" method="POST">
                             @csrf
 
+                            @if (session('success'))
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    {{ session('success') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            @endif
+
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Hotel / Restaurant Name</label>
                                 <input type="text" name="business_name" class="form-control" placeholder="Hotel / Restaurant Name" required>

@@ -85,11 +85,14 @@
 
         <!-- Revenue Chart -->
         <h3 class="mt-5 mb-3">Sales & Revenue</h3>
-
+        <div class="charts" style="display:flex;gap:30px;">
              <div class="chart-box p-3">
                      <canvas id="salesChart"></canvas>
             </div>
-
+            <div class="chart-box p-3">
+                     <canvas id="mostSoldChart"></canvas>
+            </div>
+       </div>
 
         <!-- Recent Orders -->
 <h3 class="mt-5 mb-3">Recent Orders</h3>
@@ -139,46 +142,76 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <script>
-    const ctx = document.getElementById('salesChart');
+<script>
+// ===== Sales & Revenue Chart =====
+const salesCtx = document.getElementById('salesChart').getContext('2d');
 
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-            datasets: [{
+const monthlySales = @json(array_values($monthlySales ?? [])); // <-- add this in controller if not yet
+const monthlyRevenue = @json(array_values($monthlyRevenue ?? []));
+
+const monthLabels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+new Chart(salesCtx, {
+    type: 'bar',
+    data: {
+        labels: monthLabels.slice(0, monthlyRevenue.length),
+        datasets: [
+            {
                 label: 'Sales (Orders)',
-                data: [30, 45, 50, 60, 55, 70, 80, 75, 90],
-                borderWidth: 3,
+                data: monthLabels,
+                backgroundColor: 'rgba(78,115,223,0.4)',
                 borderColor: '#4e73df',
-                tension: 0.4,
-                fill: false
+                borderWidth: 2
             },
             {
                 label: 'Revenue (₹)',
-                data: [15000, 22000, 28000, 30000, 35000, 42000, 45000, 47000, 52000],
-                borderWidth: 3,
+                data: monthlyRevenue,
+                backgroundColor: 'rgba(28,200,138,0.4)',
                 borderColor: '#1cc88a',
-                tension: 0.4,
-                fill: false
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { 
-                legend: { position: 'bottom' }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+                borderWidth: 2
             }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom' } },
+        scales: { y: { beginAtZero: true } }
+    }
+});
+
+// ===== Most Sold Vegetables Pie Chart =====
+const pieCtx = document.getElementById('mostSoldChart').getContext('2d');
+
+const vegNames = @json($mostSoldVegetables->pluck('name'));
+const vegQuantity = @json($mostSoldVegetables->pluck('total_quantity'));
+
+new Chart(pieCtx, {
+    type: 'pie',
+    data: {
+        labels: vegNames,
+        datasets: [{
+            label: 'Most Sold Vegetables',
+            data: vegQuantity,
+            backgroundColor: [
+                '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e',
+                '#e74a3b', '#858796', '#fd7e14', '#6f42c1'
+            ],
+            borderColor: '#fff',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { position: 'bottom' },
+            tooltip: { enabled: true }
         }
-    });
+    }
+});
 </script>
 
 
