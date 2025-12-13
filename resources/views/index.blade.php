@@ -56,8 +56,8 @@
 
     @include('layouts.header')
 
-    <!-- Hero Section with Text and Carousel Start -->
-    <div class="container-fluid py-5" style="background-color: #f8f9fa;">
+<!-- Hero Section with Text and Carousel Start -->
+<div class="container-fluid py-5" style="background-color: #f8f9fa;">
         <div class="container">
             <div class="row align-items-center g-5">
                 <!-- Text Section (40%) -->
@@ -95,8 +95,9 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Hero Section with Text and Carousel End -->
+</div>
+<!-- Hero Section with Text and Carousel End -->
+
 
 
 <!-- Products Cards Section Start -->
@@ -185,14 +186,7 @@
                         <form action="{{ route('Specialorder') }}" method="POST">
                             @csrf
 
-                            @if (session('success'))
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    {{ session('success') }}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                </div>
-                            @endif
-
-                            <div class="mb-3">
+                           <div class="mb-3">
                                 <label class="form-label fw-semibold">Hotel / Restaurant Name</label>
                                 <input type="text" name="business_name" class="form-control" placeholder="Hotel / Restaurant Name" required>
                             </div>
@@ -256,6 +250,8 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+
+
 </body>
 
 </html>

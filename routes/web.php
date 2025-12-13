@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SuperAdminController;
 
 
 Route::get('/', [UserController::class, 'index'])->name('index');
@@ -62,3 +63,14 @@ Route::get('/confirmOrder/{order_id}', [AdminController::class, 'confirmOrder'])
 Route::get('/cancelOrder/{order_id}', [AdminController::class, 'cancelOrder'])->name('cancelOrder');
 
 Route::get('/invoice/{order_id}', [AdminController::class, 'invoice'])->name('invoice');
+
+
+//super admin
+
+Route::get('/alltraders', [AdminController::class, 'alltraders'])->name('alltraders')->middleware('superAdmin');
+Route::get('/superadmin/traders', [SuperAdminController::class, 'traders'])->name('superadmin.traders')->middleware('superAdmin');;
+// Optional: Manage actions
+Route::get('/superadmin/traders/{id}/edit', [SuperAdminController::class, 'editTrader'])->name('superadmin.traders.edit')->middleware('superAdmin');;
+Route::post('/superadmin/traders/{id}/update', [SuperAdminController::class, 'updateTrader'])->name('superadmin.traders.update')->middleware('superAdmin');;
+
+Route::delete('/superadmin/traders/{id}/delete', [SuperAdminController::class, 'deleteTrader'])->name('superadmin.traders.delete');

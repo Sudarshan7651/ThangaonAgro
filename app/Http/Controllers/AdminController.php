@@ -214,12 +214,20 @@ class AdminController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
-            return redirect()->route('dashboard');
-        }
-        else {
-            return back()->with('error', 'Login failed. Please check your credentials.');
-        }
 
+             $user = Auth::user();
+
+           if ($user->role === 'trader') {
+            return redirect()->route('dashboard'); // Trader dashboard
+        } elseif ($user->role === 'superAdmin') {
+            return redirect()->route('alltraders'); // Admin view
+        } else {
+            Auth::logout();
+            return back()->with('error', 'Unauthorized role.');
+        }
+    } else {
+        return back()->with('error', 'Login failed. Please check your credentials.');
+    }
     }
 
     public function storeOrder(Request $request){
@@ -295,6 +303,14 @@ class AdminController extends Controller
         }
         return redirect()->back()->with('error', 'Order not found.');
     }
+
+    public function alltraders()
+     {
+    return view('superadmin.sidebar');
+      }
+
+
+   
 
 
 }

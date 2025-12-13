@@ -41,9 +41,6 @@
     <!-- Spinner End -->
 
 @include('layouts.header')
-
-
-
 @section('title', 'About Us')
 
 <!-- About Us Section Start -->

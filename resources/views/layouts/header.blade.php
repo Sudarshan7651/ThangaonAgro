@@ -2,9 +2,7 @@
 <div class="container-fluid bg-white shadow-sm sticky-top">
     <div class="container">
         <nav class="navbar navbar-expand-lg bg-white navbar-light p-lg-0">
-         <a href="javascript:history.back()" class="btn btn-danger me-4">
-    ←
-</a>
+       
 
 
 
