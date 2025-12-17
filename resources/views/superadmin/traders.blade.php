@@ -67,13 +67,14 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
+    <div class="table table-responsive">
     <table class="table table-bordered">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
                 <th>Mobile</th>
-                <th>Email</th>
+                <th>Address</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -83,19 +84,20 @@
                     <td>{{ $trader->id }}</td>
                     <td>{{ $trader->businessName }}</td>
                     <td>{{ $trader->mobile }}</td>
-                    <td>{{ $trader->email }}</td>
+                    <td>{{ $trader->address }}</td>
                     <td>
-                        <a href="{{ route('superadmin.traders.edit', $trader->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="{{ route('superadmin.traders.edit', $trader->id) }}" class="btn btn-primary btn-sm mt-2">Edit</a>
                         <form action="{{ route('superadmin.traders.delete', $trader->id) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                            <button type="submit" class="btn btn-danger btn-sm mt-2" onclick="return confirm('Are you sure?')">Delete</button>
                         </form>
                     </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
+    </div>
 </div>
 </div>
 

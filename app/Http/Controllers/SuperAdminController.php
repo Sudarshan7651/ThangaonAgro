@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Addnewvegetable;
 use Illuminate\Support\Facades\Auth;
 
 class SuperAdminController extends Controller
@@ -53,5 +54,62 @@ class SuperAdminController extends Controller
         $trader->delete();
 
         return redirect()->route('superadmin.traders')->with('success', 'Trader deleted successfully.');
+    }
+
+    public function manageVegetables(){
+        
+        $vegetables = Addnewvegetable::all();
+        return view('superadmin.manageVegetables',compact('vegetables')); 
+   }
+
+    public function deleteVegetable($vegetable_id){
+
+        // Fetch the vegetable that belongs ONLY to the logged-in admin
+        $vegetable = Addnewvegetable::where('vegetable_id', $vegetable_id)
+                                    ->first();
+
+        // Delete image file from folder
+        $imagePath = public_path('images/' . $vegetable->image);
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
+        }
+
+        // Delete record
+        $vegetable->delete();
+
+        return redirect()->back()->with('success', 'Vegetable deleted successfully!');
+    }
+
+    public function updateVegetable(Request $request, $vegetable_id){
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'quantity' => 'required|integer',
+            'image' => 'nullable|image|max:2048',
+        ]);
+
+        $vegetable = Addnewvegetable::find($vegetable_id);
+        if (!$vegetable) {
+            return redirect()->route('vegetableslist')->with('error', 'Vegetable not found.');
+        }
+
+        // Handle image upload if provided
+        if ($request->hasFile('image')) {
+            $img = $request->file('image');
+            $filename = time() . '_' . $img->getClientOriginalName();
+            $img->move(public_path('images'), $filename);
+            $vegetable->image = $filename;
+        }
+
+        // Update other fields
+        $vegetable->name = $validated['name'];
+        $vegetable->price = $validated['price'];
+        $vegetable->quantity = $validated['quantity'];
+
+        if ($vegetable->save()) {
+            return redirect()->route('manageVegetables')->with('success', 'Vegetable updated successfully!');
+        }
+
+        return redirect()->back()->with('error', 'Failed to update vegetable.');
     }
 }

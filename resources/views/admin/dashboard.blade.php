@@ -84,15 +84,19 @@
         </div>
 
         <!-- Revenue Chart -->
-        <h3 class="mt-5 mb-3">Sales & Revenue</h3>
+        
         <div class="charts" style="display:flex;gap:30px;">
-             <div class="chart-box p-3">
+             <div class="chart-box p-5">            
+                    <h5 class="text-center mb-3">Sales & Revenue</h5>
                      <canvas id="salesChart"></canvas>
             </div>
-            <div class="chart-box p-3">
-                     <canvas id="mostSoldChart"></canvas>
+            <div class="chart-box p-5 ">
+                <h5 class="text-center mb-3">Most Sold Vegetables</h5>
+                <canvas id="mostSoldChart"></canvas>
             </div>
-       </div>
+
+        </div>
+     
 
         <!-- Recent Orders -->
 <h3 class="mt-5 mb-3">Recent Orders</h3>

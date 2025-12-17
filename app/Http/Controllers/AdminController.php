@@ -220,7 +220,7 @@ class AdminController extends Controller
            if ($user->role === 'trader') {
             return redirect()->route('dashboard'); // Trader dashboard
         } elseif ($user->role === 'superAdmin') {
-            return redirect()->route('alltraders'); // Admin view
+            return redirect()->route('superadmin.traders'); // Admin view
         } else {
             Auth::logout();
             return back()->with('error', 'Unauthorized role.');
@@ -304,10 +304,6 @@ class AdminController extends Controller
         return redirect()->back()->with('error', 'Order not found.');
     }
 
-    public function alltraders()
-     {
-    return view('superadmin.sidebar');
-      }
 
 
    

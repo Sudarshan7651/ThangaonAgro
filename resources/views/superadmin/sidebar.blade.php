@@ -77,13 +77,14 @@
 </head>
 
 <!-- Toggle Button -->
-<button class="sidebar-toggle" onclick="toggleSidebar()">☰ Menu</button>
+<button class="sidebar-toggle" id="menu" onclick="toggleSidebar()">☰ Menu</button>
 
 <!-- Sidebar -->
 <div class="sidebar " id="sidebar">
     <h4 class="text-center mb-4" style="margin-top: 60px;">Hello, {{ Auth::user()->businessName }}</h4>
 
     <a href="{{route('superadmin.traders')}}">All Traders</a>
+    <a href="{{route('manageVegetables')}}">Manage Vegatables</a>
 
     <form action="{{route('logout')}}" method="post" class="mt-3">
         @csrf
@@ -92,7 +93,13 @@
 </div>
 
 <script>
+     let name=document.getElementById("menu");
 function toggleSidebar() {
     document.getElementById("sidebar").classList.toggle("open");
+    if(name.innerHTML=="☰ Menu"){
+        name.innerHTML="close X";
+    }else{
+        name.innerHTML="☰ Menu";
+    }
 }
 </script>

@@ -55,10 +55,10 @@ class UserController extends Controller
 
 
 
-    // This is When new trader register for it
-
+    // This saves data to database When new trader register 
     public function registersave(Request $request){
 
+        //validation
          $data = $request->validate([
             'businessName' => 'required',
              'mobile'       => 'required',

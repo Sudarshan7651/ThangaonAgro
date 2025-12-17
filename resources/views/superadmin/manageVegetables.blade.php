@@ -1,9 +1,14 @@
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Add Vegetable</title>
+    <title>Super Admin Manage Dashboard Vegetable</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -56,26 +61,39 @@
 
 <div class="content">
 <div class="container">
-    <h1>Edit Trader</h1>
+    <h1>manageVegetables</h1>
+    
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Sr.No</th>
+                        <th>Admin Id</th>
+                        <th>Vegetable Name</th>
+                        <th>Price (₹)</th>
+                        <th>Quantity (Kg)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
 
-    <form action="{{ route('superadmin.traders.update', $trader->id) }}" method="POST">
-        @csrf
-        <div class="mb-3">
-            <label>Name</label>
-            <input type="text" name="name" value="{{ $trader->name }}" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label>Mobile</label>
-            <input type="text" name="mobile" value="{{ $trader->mobile }}" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label>Password</label>
-            <input type="email" name="password" value="{{ $trader->password }}" class="form-control">
-        </div>
-        <button type="submit" class="btn btn-success">Update Trader</button>
-    </form>
+                <tbody>
+                    @foreach($vegetables as $index => $veg)
+                    <tr>
+                        <td>{{$index + 1}}</td>
+                        <td>{{$veg->admin_id}}</td>
+                        <td>{{$veg->name}}</td>
+                        <td>{{$veg->price}}</td>
+                        <td>{{$veg->quantity}} Kg</td>
+                        <td>
+                            <a class="btn btn-sm btn-primary mt-2" href="{{ route('edit', $veg->vegetable_id)}}">Edit</a>
+                         <form action="{{ route('delete', $veg->vegetable_id)}}" method="POST" style="display:inline;">  @csrf @method('PUT') <button type="submit" class="btn btn-sm btn-danger mt-2">Delete</button>  </form>
+                        </td>
+                    </tr>
+
+                    @endforeach
+                </tbody>
+            </table>
+                       
 </div>
-
 </div>
 
     <!-- Bootstrap JS -->

@@ -66,11 +66,16 @@ Route::get('/invoice/{order_id}', [AdminController::class, 'invoice'])->name('in
 
 
 //super admin
-
-Route::get('/alltraders', [AdminController::class, 'alltraders'])->name('alltraders')->middleware('superAdmin');
 Route::get('/superadmin/traders', [SuperAdminController::class, 'traders'])->name('superadmin.traders')->middleware('superAdmin');;
-// Optional: Manage actions
+
 Route::get('/superadmin/traders/{id}/edit', [SuperAdminController::class, 'editTrader'])->name('superadmin.traders.edit')->middleware('superAdmin');;
+
 Route::post('/superadmin/traders/{id}/update', [SuperAdminController::class, 'updateTrader'])->name('superadmin.traders.update')->middleware('superAdmin');;
 
-Route::delete('/superadmin/traders/{id}/delete', [SuperAdminController::class, 'deleteTrader'])->name('superadmin.traders.delete');
+Route::delete('/superadmin/traders/{id}/delete', [SuperAdminController::class, 'deleteTrader'])->name('superadmin.traders.delete')->middleware('superAdmin');;
+
+Route::get('manageVegetables', [SuperAdminController::class, 'manageVegetables'])->name('manageVegetables')->middleware('superAdmin');;
+
+Route::put('/delete/{vegetable_id}', [SuperAdminController::class, 'deleteVegetable'])->name('delete')->middleware('superAdmin');;
+
+Route::put('/changeupdate/{vegetable_id}', [SuperAdminController::class, 'updateVegetable'])->name('changeupdate')->middleware('superAdmin');;
