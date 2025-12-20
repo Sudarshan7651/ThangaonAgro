@@ -67,12 +67,14 @@ class UserController extends Controller
 
             ]);
 
+            
 
           // Insert into DB
             $user = User::create($data);
 
             if ($user) {
-                return redirect()->route('login');
+                Auth::guard('web')->login($user); 
+                return redirect()->route('dashboard');
             }
 
          return back()->with('error', 'Registration failed');

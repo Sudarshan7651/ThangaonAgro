@@ -77,7 +77,7 @@
 </head>
 
 <!-- Toggle Button -->
-<button class="sidebar-toggle" onclick="toggleSidebar()">☰ Menu</button>
+<button class="sidebar-toggle" id="menu" onclick="toggleSidebar()">☰ Menu</button>
 
 <!-- Sidebar -->
 <div class="sidebar " id="sidebar">
@@ -97,7 +97,13 @@
 </div>
 
 <script>
+     let name=document.getElementById("menu");
 function toggleSidebar() {
     document.getElementById("sidebar").classList.toggle("open");
+    if(name.innerHTML=="☰ Menu"){
+        name.innerHTML="close";
+    }else{
+        name.innerHTML="☰ Menu";
+    }
 }
 </script>

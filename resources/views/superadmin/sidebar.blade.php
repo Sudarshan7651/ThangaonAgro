@@ -97,7 +97,7 @@
 function toggleSidebar() {
     document.getElementById("sidebar").classList.toggle("open");
     if(name.innerHTML=="☰ Menu"){
-        name.innerHTML="close X";
+        name.innerHTML="close";
     }else{
         name.innerHTML="☰ Menu";
     }

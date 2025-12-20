@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Specialorder;
 use App\Models\Contractfarming;
 use App\Models\Addnewvegetable;
+use Laravel\Socialite\Facades\Socialite;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,47 +18,50 @@ class AdminController extends Controller
         return view('admin.addnewvegetable');
     }
 
-     public function dashboard() {
-
-        if(Auth::check()){
-
-            $recents=Order::where('admin_id', Auth::id())
-                        ->orderBy('created_at', 'desc')
-                        ->take(5)
-                        ->get();
-
-            $monthlyRevenue = \DB::table('orders')
-                            ->join('addnewvegetables', 'orders.vegetable_id', '=', 'addnewvegetables.vegetable_id')
-                            ->where('orders.status', 'confirmed')
-                            ->where('orders.admin_id', Auth::id())
-                            ->selectRaw('MONTH(orders.created_at) as month, SUM(addnewvegetables.price * addnewvegetables.quantity) as revenue')
-                            ->groupBy('month')
-                            ->pluck('revenue', 'month')
-                            ->toArray();
-                                            
-                            
-                // Most Sold Vegetables
-            $mostSoldVegetables = \DB::table('orders')
-                ->join('addnewvegetables', 'orders.vegetable_id', '=', 'addnewvegetables.vegetable_id')
-                ->where('orders.status', 'confirmed')
-                ->where('orders.admin_id', Auth::id())
-                ->selectRaw('addnewvegetables.name, SUM(addnewvegetables.quantity) as total_quantity')
-                ->groupBy('addnewvegetables.name')
-                ->orderByDesc('total_quantity')
-                ->get();
-
-        
-            $orders=Order::all()->where('admin_id', Auth::id());
-            
-            return view('admin.dashboard', compact('orders', 'recents', 'monthlyRevenue','mostSoldVegetables') );
-
-        }
-        else{
-
-            return redirect()->route('register');
-        }
-
+public function dashboard()
+{
+    if (!Auth::check()) {
+        return redirect()->route('login'); // ✅ NOT register
     }
+
+    // OPTIONAL: role protection
+    if (Auth::user()->role !== 'trader') {
+        abort(403);
+    }
+
+    $recents = Order::where('admin_id', Auth::id())
+        ->latest()
+        ->take(5)
+        ->get();
+
+    $monthlyRevenue = \DB::table('orders')
+        ->join('addnewvegetables', 'orders.vegetable_id', '=', 'addnewvegetables.vegetable_id')
+        ->where('orders.status', 'confirmed')
+        ->where('orders.admin_id', Auth::id())
+        ->selectRaw('MONTH(orders.created_at) as month, SUM(addnewvegetables.price * addnewvegetables.quantity) as revenue')
+        ->groupBy('month')
+        ->pluck('revenue', 'month')
+        ->toArray();
+
+    $mostSoldVegetables = \DB::table('orders')
+        ->join('addnewvegetables', 'orders.vegetable_id', '=', 'addnewvegetables.vegetable_id')
+        ->where('orders.status', 'confirmed')
+        ->where('orders.admin_id', Auth::id())
+        ->selectRaw('addnewvegetables.name, SUM(addnewvegetables.quantity) as total_quantity')
+        ->groupBy('addnewvegetables.name')
+        ->orderByDesc('total_quantity')
+        ->get();
+
+    $orders = Order::where('admin_id', Auth::id())->get();
+
+    return view('admin.dashboard', compact(
+        'orders',
+        'recents',
+        'monthlyRevenue',
+        'mostSoldVegetables'
+    ));
+}
+
 
     public function vegetableslist() {
 
@@ -220,7 +224,7 @@ class AdminController extends Controller
            if ($user->role === 'trader') {
             return redirect()->route('dashboard'); // Trader dashboard
         } elseif ($user->role === 'superAdmin') {
-            return redirect()->route('superadmin.traders'); // Admin view
+            return redirect()->route('superadmin.traders'); // Super Admin view
         } else {
             Auth::logout();
             return back()->with('error', 'Unauthorized role.');
@@ -303,8 +307,6 @@ class AdminController extends Controller
         }
         return redirect()->back()->with('error', 'Order not found.');
     }
-
-
 
    
 

@@ -93,7 +93,7 @@
 
         {{-- Grand Total --}}
         <div class="total-box mt-3">
-                <strong>Grand Total: ₹{{ number_format($vegetable->price * $order->quantity, 2) }}</strong>
+                <strong>Grand Total: ₹{{ number_format($vegetable->price * $vegetable->quantity, 2) }}</strong>
         </div>
 
         <div class="d-flex justify-content-between mt-3">

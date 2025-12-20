@@ -79,3 +79,8 @@ Route::get('manageVegetables', [SuperAdminController::class, 'manageVegetables']
 Route::put('/delete/{vegetable_id}', [SuperAdminController::class, 'deleteVegetable'])->name('delete')->middleware('superAdmin');;
 
 Route::put('/changeupdate/{vegetable_id}', [SuperAdminController::class, 'updateVegetable'])->name('changeupdate')->middleware('superAdmin');;
+
+
+
+
+
