@@ -82,5 +82,7 @@ Route::put('/changeupdate/{vegetable_id}', [SuperAdminController::class, 'update
 
 
 
+Route::get('auth/google', [AdminController::class, 'googleLogin']);
+Route::get('google/callback', [AdminController::class, 'googleAuthentication']);
 
 

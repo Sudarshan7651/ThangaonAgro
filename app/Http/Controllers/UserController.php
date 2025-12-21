@@ -68,7 +68,6 @@ class UserController extends Controller
             ]);
 
             
-
           // Insert into DB
             $user = User::create($data);
 

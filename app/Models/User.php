@@ -22,12 +22,14 @@ class User extends Authenticatable
 
     public $timestamps=false;
 
-    protected $fillable = [
-        'businessName',
-        'mobile',
-        'password',
-        'address',
-    ];
+   protected $fillable = [
+    'businessName',
+    'email',
+    'mobile',
+    'address',
+    'password',
+    'role',
+];
 
     /**
      * The attributes that should be hidden for serialization.

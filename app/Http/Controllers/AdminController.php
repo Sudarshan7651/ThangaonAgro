@@ -8,9 +8,9 @@ use App\Models\Specialorder;
 use App\Models\Contractfarming;
 use App\Models\Addnewvegetable;
 use Laravel\Socialite\Facades\Socialite;
-
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Exception;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -308,10 +308,45 @@ public function dashboard()
         return redirect()->back()->with('error', 'Order not found.');
     }
 
+      public function googleLogin() {
+        return Socialite::driver('google')->stateless()->redirect();
+    }
+
+  
+
+ public function googleAuthentication() {
+        try {
+            $googleUser = Socialite::driver('google')->stateless()->user();
+
+            // Check if user already exists
+            $user = User::firstOrCreate(
+                ['email' => $googleUser->getEmail()],
+                [
+                    'businessName' => $googleUser->getName(),
+                    'password' => bcrypt('defaultpassword'), // mandatory if your users table requires password
+                    
+                ]
+            );
+
+            Auth::login($user);
+
+            return redirect('/dashboard');
+        } catch (\Exception $e) {
+            // Display the error for debugging
+            dd('Google login failed: ' . $e->getMessage());
+        }
+    }
+
+
+
+
+
+
    
 
 
 }
+
 
 
 

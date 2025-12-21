@@ -154,7 +154,6 @@
 .btn {
     transition: .5s;
     font-weight: 600;
-    text-transform: uppercase;
 }
 
 .btn-primary,
@@ -654,4 +653,20 @@
 .product.show {
     opacity: 1;
     transform: translateY(0);
+}
+
+#google{
+   color:green;
+}
+
+.google-icon {
+    background: conic-gradient(
+        #4285F4 0deg 90deg,
+        #34A853 90deg 180deg,
+        #FBBC05 180deg 270deg,
+        #EA4335 270deg 360deg
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 18px;
 }

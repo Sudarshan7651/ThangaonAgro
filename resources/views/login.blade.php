@@ -82,7 +82,10 @@
 
                    
                     <div class="col-12">
-                      <button class="btn btn-primary w-100" type="submit">Login</button>
+                      <button class="btn btn-primary w-100" type="submit" style="border-radius:20px;">Login</button>
+                       <a href="{{ url('/auth/google') }}" class="btn w-100 mt-3 border" style="border-radius:20px;">
+                          <i class="fab fa-google google-icon me-2" ></i id="google"> Register with Google
+                      </a>
                     </div>
                     <div class="col-12">
                       <p class="small mb-0">Don't have account? <a href="{{route('register')}}">Create an account</a></p>
