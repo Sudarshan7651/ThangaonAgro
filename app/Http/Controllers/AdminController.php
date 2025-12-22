@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Specialorder;
 use App\Models\Contractfarming;
 use App\Models\Addnewvegetable;
+use App\Models\VegetableImage;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 use Exception;
@@ -110,42 +111,45 @@ public function dashboard()
     }
 
         // This is for add new todays available vegetables by trader
-    public function Addnewvegetable(Request $request){
+public function Addnewvegetable(Request $request)
+{
+    $validatedData = $request->validate([
+        'name'     => 'required|string|max:255',
+        'price'    => 'required|string|max:20',
+        'quantity' => 'required|string|max:20',
+        'image'    => 'required|image',
+        'images.*' => 'image',
+    ]);
 
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|string|max:20',
-            'quantity' => 'required|string|max:20',
-            'image' => 'required|image',
-        ]);
+    // ✅ FIXED MAIN IMAGE UPLOAD
+    $img = $request->file('image');
+    $imageName = time() . '_' . $img->getClientOriginalName();
+    $img->move(public_path('images'), $imageName);
 
-    
-        $img = $request->file('image');
+    // SAVE VEGETABLE
+    $vegetable = Addnewvegetable::create([
+        'name'     => $validatedData['name'],
+        'price'    => $validatedData['price'],
+        'quantity' => $validatedData['quantity'],
+        'image'    => $imageName,
+        'admin_id' => Auth::id(),
+    ]);
 
-        // Generate unique filename
-        $filename = time() . '_' . $img->getClientOriginalName();
+    // SAVE MULTIPLE IMAGES
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $img) {
+            $imgName = time() . rand(100,999) . '.' . $img->extension();
+            $img->move(public_path('vegetable/gallery'), $imgName);
 
-        // Move file
-        $img->move(public_path('images'), $filename);
-
-        // Save in DB
-        $addvegetable = Addnewvegetable::create([
-            'name' => $request->name,
-            'price' => $request->price,
-            'quantity' => $request->quantity,
-            'image' => $filename,
-            'admin_id' =>Auth::id(),
-        ]);
-
-
-
-        if ($addvegetable) {
-            return redirect()->back()->with('success', 'Added successfully!');
-        
+            VegetableImage::create([
+                'vegetable_id' => $vegetable->vegetable_id,
+                'image' => $imgName,
+            ]);
         }
-
-         return redirect()->back()->with('error', 'Failed to add new vegetable.');
     }
+
+    return redirect()->back()->with('success', 'Vegetable added successfully!');
+}
 
     // Show edit form for a vegetable
     public function edit($id){
@@ -346,8 +350,3 @@ public function dashboard()
 
 
 }
-
-
-
-
-

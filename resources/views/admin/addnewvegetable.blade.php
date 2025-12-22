@@ -82,7 +82,7 @@
     <div class="mb-3">
         <label class="form-label">Upload Image</label>
         <input type="file" name="image" class="form-control" required>
-        
+       <br><br> <input type="file" name="images[]" class="form-control" multiple>
     </div>
 
     <button class="btn btn-custom px-4" type="submit">Add Vegetable</button>

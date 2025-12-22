@@ -140,27 +140,41 @@
     <div class="order-flex mt-5 mb-5">
 
 
-         <!-- Right Side -->
-                    <div class="col-md-6 mb-3">
-                        <h2 class="fw-bold mb-3">Vegetable Details</h2><hr>
-                        @if($veg)
-                            <div class="mb-3">
-                                <img src="{{ asset('images/' . $veg->image) }}" 
-                                     class="img-fluid rounded shadow-sm"
-                                     style="max-width: 500px;">
-                            </div>
-                            <h3 class="fw-bold">{{ $veg->name }}</h3>
-                            <p class="mb-2"><strong>Quantity:</strong> {{ $veg->quantity }} Kg</p>
-                            <p class="mb-2"><strong>Price:</strong> ₹{{ $veg->price }}</p>
+      <!-- First Div: Main Image + View More Button -->
+<div class="col-md-6 mb-3">
+    <h2 class="fw-bold mb-3">Vegetable Details</h2><hr>
 
-                        @else
-                            <p class="text-danger">Vegetable details not found.</p>
-                        @endif
-                    </div>
+    @if($veg)
+        <!-- Main Image -->
+        <div class="mb-3">
+            <img src="{{ asset('images/' . $veg->image) }}" 
+                 class="img-fluid rounded shadow-sm"
+                 style="max-width: 500px;">
+        </div>
 
-        
+        <!-- View More Button -->
+        @if($veg->images && $veg->images->count() > 0)
+            <button id="viewMoreBtn" class="btn btn-primary mb-3">View More</button>
+        @endif
 
-        <!-- RIGHT SIDE: Form -->
+        <!-- Multiple Gallery Images (Initially Hidden) -->
+        <div id="galleryImages" style="display: none;">
+            @foreach($veg->images as $gallery)
+                <img src="{{ asset('vegetable/gallery/' . $gallery->image) }}" 
+                     class="img-fluid rounded shadow-sm mb-2"
+                     style="max-width: 200px;">
+            @endforeach
+        </div>
+
+        <h3 class="fw-bold">{{ $veg->name }}</h3>
+        <p class="mb-2"><strong>Quantity:</strong> {{ $veg->quantity }} Kg</p>
+        <p class="mb-2"><strong>Price:</strong> ₹{{ $veg->price }}</p>
+
+    @else
+        <p class="text-danger">Vegetable details not found.</p>
+    @endif
+</div>
+
         <div class="form-box">
 
             <h4>Your Details</h4>
@@ -217,6 +231,18 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    document.getElementById('viewMoreBtn')?.addEventListener('click', function() {
+        const gallery = document.getElementById('galleryImages');
+        if (gallery.style.display === "none") {
+            gallery.style.display = "block";
+            this.textContent = "View Less"; // toggle button text
+        } else {
+            gallery.style.display = "none";
+            this.textContent = "View More";
+        }
+    });
+</script>
 </body>
 
 </html>
