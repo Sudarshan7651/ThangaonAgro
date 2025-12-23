@@ -55,7 +55,7 @@
     <!-- Main Content -->
     <div class="content">
 
-        <h2 class="mb-4">Special Orders</h2>
+        <h2 class="fw-bold text-dark">Contract Farming</h2>
 
         <div class="card p-3">
 <div class="table-responsive">

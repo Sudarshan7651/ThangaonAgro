@@ -19,50 +19,48 @@ class AdminController extends Controller
         return view('admin.addnewvegetable');
     }
 
-public function dashboard()
-{
-    if (!Auth::check()) {
-        return redirect()->route('login'); // ✅ NOT register
+    public function dashboard(){
+        if (!Auth::check()) {
+            return redirect()->route('login'); // ✅ NOT register
+        }
+
+        // OPTIONAL: role protection
+        if (Auth::user()->role !== 'trader') {
+        return view('sudarshanerror');
+        }
+
+        $recents = Order::where('admin_id', Auth::id())
+            ->latest()
+            ->take(5)
+            ->get();
+
+        $monthlyRevenue = \DB::table('orders')
+            ->join('addnewvegetables', 'orders.vegetable_id', '=', 'addnewvegetables.vegetable_id')
+            ->where('orders.status', 'confirmed')
+            ->where('orders.admin_id', Auth::id())
+            ->selectRaw('MONTH(orders.created_at) as month, SUM(addnewvegetables.price * addnewvegetables.quantity) as revenue')
+            ->groupBy('month')
+            ->pluck('revenue', 'month')
+            ->toArray();
+
+        $mostSoldVegetables = \DB::table('orders')
+            ->join('addnewvegetables', 'orders.vegetable_id', '=', 'addnewvegetables.vegetable_id')
+            ->where('orders.status', 'confirmed')
+            ->where('orders.admin_id', Auth::id())
+            ->selectRaw('addnewvegetables.name, SUM(addnewvegetables.quantity) as total_quantity')
+            ->groupBy('addnewvegetables.name')
+            ->orderByDesc('total_quantity')
+            ->get();
+
+        $orders = Order::where('admin_id', Auth::id())->get();
+
+        return view('admin.dashboard', compact(
+            'orders',
+            'recents',
+            'monthlyRevenue',
+            'mostSoldVegetables'
+        ));
     }
-
-    // OPTIONAL: role protection
-    if (Auth::user()->role !== 'trader') {
-       return view('sudarshanerror');
-    }
-
-    $recents = Order::where('admin_id', Auth::id())
-        ->latest()
-        ->take(5)
-        ->get();
-
-    $monthlyRevenue = \DB::table('orders')
-        ->join('addnewvegetables', 'orders.vegetable_id', '=', 'addnewvegetables.vegetable_id')
-        ->where('orders.status', 'confirmed')
-        ->where('orders.admin_id', Auth::id())
-        ->selectRaw('MONTH(orders.created_at) as month, SUM(addnewvegetables.price * addnewvegetables.quantity) as revenue')
-        ->groupBy('month')
-        ->pluck('revenue', 'month')
-        ->toArray();
-
-    $mostSoldVegetables = \DB::table('orders')
-        ->join('addnewvegetables', 'orders.vegetable_id', '=', 'addnewvegetables.vegetable_id')
-        ->where('orders.status', 'confirmed')
-        ->where('orders.admin_id', Auth::id())
-        ->selectRaw('addnewvegetables.name, SUM(addnewvegetables.quantity) as total_quantity')
-        ->groupBy('addnewvegetables.name')
-        ->orderByDesc('total_quantity')
-        ->get();
-
-    $orders = Order::where('admin_id', Auth::id())->get();
-
-    return view('admin.dashboard', compact(
-        'orders',
-        'recents',
-        'monthlyRevenue',
-        'mostSoldVegetables'
-    ));
-}
-
 
     public function vegetableslist() {
 
@@ -84,10 +82,10 @@ public function dashboard()
 
     public function specialOrders() {
         // Delete special orders older than 1 day
-    Specialorder::where('created_at', '<', now()->subDay())->delete();
+        Specialorder::where('created_at', '<', now()->subDay())->delete();
 
-        $orders = Specialorder::orderBy('id', 'DESC')->get();
-        return view('admin.specialOrders', compact('orders'));
+            $orders = Specialorder::orderBy('id', 'DESC')->get();
+            return view('admin.specialOrders', compact('orders'));
 
     }
 
@@ -95,7 +93,7 @@ public function dashboard()
 
         
         // Delete special orders older than 1 day
-    Contractfarming::where('created_at', '<', now()->subDay())->delete();
+        Contractfarming::where('created_at', '<', now()->subDay())->delete();
 
         $contractfarmingorders=Contractfarming::all();
         return view('admin.contractFarming', compact('contractfarmingorders'));
@@ -105,51 +103,50 @@ public function dashboard()
 
     public function logout(){
 
-    Auth::logout();
-    return redirect()->route('index');
+        Auth::logout();
+        return redirect()->route('index');
 
     }
 
         // This is for add new todays available vegetables by trader
-public function Addnewvegetable(Request $request)
-{
-    $validatedData = $request->validate([
-        'name'     => 'required|string|max:255',
-        'price'    => 'required|string|max:20',
-        'quantity' => 'required|string|max:20',
-        'image'    => 'required|image',
-        'images.*' => 'image',
-    ]);
+    public function Addnewvegetable(Request $request){
+        $validatedData = $request->validate([
+            'name'     => 'required|string|max:255',
+            'price'    => 'required|string|max:20',
+            'quantity' => 'required|string|max:20',
+            'image'    => 'required|image',
+            'images.*' => 'image',
+        ]);
 
-    // ✅ FIXED MAIN IMAGE UPLOAD
-    $img = $request->file('image');
-    $imageName = time() . '_' . $img->getClientOriginalName();
-    $img->move(public_path('images'), $imageName);
+        // ✅ FIXED MAIN IMAGE UPLOAD
+        $img = $request->file('image');
+        $imageName = time() . '_' . $img->getClientOriginalName();
+        $img->move(public_path('images'), $imageName);
 
-    // SAVE VEGETABLE
-    $vegetable = Addnewvegetable::create([
-        'name'     => $validatedData['name'],
-        'price'    => $validatedData['price'],
-        'quantity' => $validatedData['quantity'],
-        'image'    => $imageName,
-        'admin_id' => Auth::id(),
-    ]);
+        // SAVE VEGETABLE
+        $vegetable = Addnewvegetable::create([
+            'name'     => $validatedData['name'],
+            'price'    => $validatedData['price'],
+            'quantity' => $validatedData['quantity'],
+            'image'    => $imageName,
+            'admin_id' => Auth::id(),
+        ]);
 
-    // SAVE MULTIPLE IMAGES
-    if ($request->hasFile('images')) {
-        foreach ($request->file('images') as $img) {
-            $imgName = time() . rand(100,999) . '.' . $img->extension();
-            $img->move(public_path('vegetable/gallery'), $imgName);
+        // SAVE MULTIPLE IMAGES
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $img) {
+                $imgName = time() . rand(100,999) . '.' . $img->extension();
+                $img->move(public_path('vegetable/gallery'), $imgName);
 
-            VegetableImage::create([
-                'vegetable_id' => $vegetable->vegetable_id,
-                'image' => $imgName,
-            ]);
+                VegetableImage::create([
+                    'vegetable_id' => $vegetable->vegetable_id,
+                    'image' => $imgName,
+                ]);
+            }
         }
-    }
 
-    return redirect()->back()->with('success', 'Vegetable added successfully!');
-}
+        return redirect()->back()->with('success', 'Vegetable added successfully!');
+    }
 
     // Show edit form for a vegetable
     public function edit($id){
@@ -201,6 +198,10 @@ public function Addnewvegetable(Request $request)
                                     ->where('admin_id', Auth::id())
                                     ->first();
 
+        if (!$vegetable) {
+            return redirect()->back()->with('error', 'Vegetable not found or unauthorized.');
+        }
+
         // Delete image file from folder
         $imagePath = public_path('images/' . $vegetable->image);
         if (file_exists($imagePath)) {
@@ -233,9 +234,9 @@ public function Addnewvegetable(Request $request)
             Auth::logout();
             return back()->with('error', 'Unauthorized role.');
         }
-    } else {
-        return back()->with('error', 'Login failed. Please check your credentials.');
-    }
+        } else {
+            return back()->with('error', 'Login failed. Please check your credentials.');
+        }
     }
 
     public function storeOrder(Request $request){
@@ -278,9 +279,6 @@ public function Addnewvegetable(Request $request)
         return redirect()->back()->with('error', 'Order not found.');
     }
 
-
-
-
     public function Specialorder(Request $request){
         $request->validate([
             'business_name' => 'required|string',
@@ -316,7 +314,6 @@ public function Addnewvegetable(Request $request)
         return Socialite::driver('google')->stateless()->redirect();
     }
 
-  
 
  public function googleAuthentication() {
         try {

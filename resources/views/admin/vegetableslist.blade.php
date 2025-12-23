@@ -7,42 +7,73 @@
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
         body {
-            background: #f7f9fc;
+            background: #f8f9fa;
         }
-        .sidebar {
-            height: 100vh;
-            background: #1e1e2d;
-            color: #fff;
-            padding-top: 30px;
-            position: fixed;
-            width: 250px;
-        }
-        .sidebar a {
-            color: #b8b8c7;
-            padding: 12px 20px;
-            display: block;
-            text-decoration: none;
-        }
-        .sidebar a:hover, .sidebar a.active {
-            background: #34344a;
-            color: #fff;
-        }
+        /* Mobile adjustment for sidebar is handled in sidepannel.blade.php */
+
         .content {
-            margin-left: 250px;
-            padding: 30px;
+           /* margin-left handled by sidepannel globally */
+            padding: 20px;
         }
+
+        /* Card Polish */
         .card {
+            border: none;
             border-radius: 12px;
-            box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            background: #fff;
         }
-        .veg-img {
-            width: 60px;
-            height: 60px;
-            border-radius: 8px;
-            object-fit: cover;
+
+        /* Table Aesthetics */
+        .table thead th {
+            background-color: #f8f9fc;
+            color: #495057;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.95rem;
+            border-bottom: 2px solid #eaecf4;
+            white-space: nowrap;
+        }
+        
+        .table td {
+            vertical-align: middle;
+            font-size: 0.95rem;
+            border-color: #f1f1f4;
+        }
+
+        /* Quantity Badge */
+        .quantity-badge {
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 8px 12px;
+            min-width: 80px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        /* Action Buttons */
+        .btn-action {
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            margin: 0 2px;
+            transition: all 0.2s;
+        }
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .content { padding: 15px; }
         }
     </style>
 </head>
@@ -55,52 +86,55 @@
     <!-- Main Content -->
     <div class="content">
 
-        <h2 class="mb-4">Vegetables List</h2>
+        <h2 class="fw-bold text-dark mb-4">Vegetables List</h2>  
 
-        <div class="card p-3">
+        <div class="card p-4">
 
-            <table class="table table-hover align-middle">
-                <thead>
-                    <tr>
-                        <th>Sr.No</th>
-                        <th>Vegetable Name</th>
-                        <th>Price (₹)</th>
-                        <th>Quantity (Kg)</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Sr.No</th>
+                            <th>Vegetable Name</th>
+                            <th>Price (₹)</th>
+                            <th>Quantity (Kg)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    @foreach($vegetables as $index => $veg)
-                    <tr>
-                        <td>{{$index + 1}}</td>
-                        <td>{{$veg->name}}</td>
-                        <td>{{$veg->price}}</td>
-                        <td>{{$veg->quantity}} Kg</td>
-                        <td>
-                            <a class="btn btn-sm btn-primary mt-2" href="{{ route('edit', $veg->vegetable_id)}}">Edit</a>
-                         <form action="{{ route('delete', $veg->vegetable_id)}}" method="POST" style="display:inline;"> 
-                             @csrf @method('PUT') 
-                             <button type="submit" class="btn btn-sm btn-danger mt-2">Delete</button> 
-                         </form>
-                        </td>
-                    </tr>
+                    <tbody>
+                        @foreach($vegetables as $index => $veg)
+                        <tr>
+                            <td class="text-muted fw-bold">{{$index + 1}}</td>
+                            <td><span class="fw-bold text-dark">{{$veg->name}}</span></td>
+                            <td>{{$veg->price}}</td>
+                            <td><span class="badge bg-light text-dark border quantity-badge">{{$veg->quantity}} Kg</span></td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <a class="btn btn-action btn-primary text-white" href="{{ route('edit', $veg->vegetable_id)}}" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form action="{{ route('deletevegetableAdmin', $veg->vegetable_id)}}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this vegetable?');"> 
+                                         @csrf @method('PUT') 
+                                         <button type="submit" class="btn btn-action btn-danger text-white" title="Delete">
+                                            <i class="fas fa-trash-alt"></i>
+                                         </button> 
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
 
-                    @endforeach
-                </tbody>
-            </table>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
         </div>
 
     </div>
 
-
-
-
-
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
 
 </body>
 </html>

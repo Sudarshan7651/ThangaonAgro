@@ -51,7 +51,7 @@ Route::get('/edit/{vegetable_id}', [AdminController::class, 'edit'])->name('edit
 
 Route::put('/changeupdateAdminVegetable/{vegetable_id}', [AdminController::class, 'changeupdateAdminVegetable'])->name('changeupdateAdminVegetable');
 
-Route::put('/delete/{vegetable_id}', [AdminController::class, 'deleteVegetable'])->name('delete');
+Route::put('/deletevegetableAdmin/{vegetable_id}', [AdminController::class, 'deleteVegetable'])->name('deletevegetableAdmin');
 
 Route::post('loginmatch', [AdminController::class, 'loginmatch'])->name('loginmatch');
 
@@ -87,5 +87,3 @@ Route::put('/changeupdate/{vegetable_id}', [SuperAdminController::class, 'update
 
 Route::get('auth/google', [AdminController::class, 'googleLogin']);
 Route::get('google/callback', [AdminController::class, 'googleAuthentication']);
-
-

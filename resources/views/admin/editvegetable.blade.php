@@ -63,7 +63,7 @@
     <!-- Main Content -->
     <div class="content">
 
-        <h2 class="mb-4">Edit Vegetable</h2>
+        <h2 class="fw-bold text-dark">Edit Vegetable</h2>
 
         <div class="card p-4">
             <form action="{{ route('changeupdateAdminVegetable', $vegetable->vegetable_id) }}" method="POST" enctype="multipart/form-data">

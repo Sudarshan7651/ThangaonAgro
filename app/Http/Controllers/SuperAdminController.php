@@ -10,8 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class SuperAdminController extends Controller
 {
     // Show all traders
-    public function traders()
-    {
+    public function traders(){
         // Only allow superAdmin access
         if (Auth::user()->role !== 'superAdmin') {
             return redirect()->route('dashboard')->with('error', 'Access denied.');
@@ -24,16 +23,14 @@ class SuperAdminController extends Controller
     }
 
     // Edit trader info
-    public function editTrader($id)
-    {
+    public function editTrader($id){
         $trader = User::findOrFail($id);
 
         return view('superadmin.editTrader', compact('trader'));
     }
 
     // Update trader info
-    public function updateTrader(Request $request, $id)
-    {
+    public function updateTrader(Request $request, $id){
         $trader = User::findOrFail($id);
 
         $request->validate([
@@ -48,8 +45,7 @@ class SuperAdminController extends Controller
     }
 
     // Delete trader
-    public function deleteTrader($id)
-    {
+    public function deleteTrader($id){
         $trader = User::findOrFail($id);
         $trader->delete();
 
