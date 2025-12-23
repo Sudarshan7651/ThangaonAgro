@@ -30,6 +30,18 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    <style>
+        /* Footer Visibility Fix */
+        .footer, .footer a, .footer p, 
+        .copyright, .copyright a, .copyright p {
+            color: #ffffff !important;
+        }
+
+        .copyright {
+            background-color: #212529 !important; /* Ensure dark background for white text */
+        }
+    
+    </style>
 </head>
 
 <body>

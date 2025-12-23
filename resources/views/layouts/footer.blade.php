@@ -1,5 +1,54 @@
+<style>
 
-    <!-- Footer Start -->
+            /* Footer Visibility Fix */
+        .footer, .footer a, .footer p, 
+        .copyright, .copyright a, .copyright p {
+            color: #ffffff6f !important;
+        }
+
+        .copyright {
+            background-color: #212529 !important; /* Ensure dark background for white text */
+        }
+        
+        .footer .btn-link {
+            display: block;
+            margin-bottom: 5px;
+            padding: 0;
+            text-align: left;
+            color: rgba(255,255,255,0.8) !important;
+            font-weight: normal;
+            text-transform: capitalize;
+            transition: .3s;
+        }
+
+        .footer .btn-link::before {
+            position: relative;
+            content: "\f105";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            margin-right: 10px;
+        }
+
+        .footer .btn-link:hover {
+            color: var(--primary) !important; /* Use primary green for hover */
+            letter-spacing: 1px;
+            box-shadow: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 991px) {
+            .hero-title { font-size: 2.5rem; }
+            .hero-text { font-size: 1.1rem; }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-section { text-align: center; padding: 50px 0; }
+            .hero-title { font-size: 2rem; }
+        }
+</style>
+  
+  
+  <!-- Footer Start -->
     <div class="container-fluid bg-dark footer py-3 wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-3">
             <div class="row g-4">
