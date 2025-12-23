@@ -6,6 +6,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SuperAdminController;
 
 
+Route::get('/sudarshanerror', [UserController::class, 'sudarshanerror'])->name('sudarshanerror');
+
+
 Route::get('/', [UserController::class, 'index'])->name('index');
 
 Route::get('/products', [UserController::class, 'product'])->name('product');
@@ -46,7 +49,7 @@ Route::post('/addnewvegetable', [AdminController::class, 'addnewvegetable'])->na
 
 Route::get('/edit/{vegetable_id}', [AdminController::class, 'edit'])->name('edit');
 
-Route::put('/changeupdate/{vegetable_id}', [AdminController::class, 'updateVegetable'])->name('changeupdate');
+Route::put('/changeupdateAdminVegetable/{vegetable_id}', [AdminController::class, 'changeupdateAdminVegetable'])->name('changeupdateAdminVegetable');
 
 Route::put('/delete/{vegetable_id}', [AdminController::class, 'deleteVegetable'])->name('delete');
 

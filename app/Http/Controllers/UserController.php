@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+
+    public function sudarshanerror(){
+        return view('admin.sudarshanerror');
+    }
+
+
     public function index() {
         $vegetables = Addnewvegetable::all();
 

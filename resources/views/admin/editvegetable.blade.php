@@ -66,7 +66,7 @@
         <h2 class="mb-4">Edit Vegetable</h2>
 
         <div class="card p-4">
-            <form action="{{ route('changeupdate', $vegetable->vegetable_id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('changeupdateAdminVegetable', $vegetable->vegetable_id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 

@@ -27,7 +27,7 @@ public function dashboard()
 
     // OPTIONAL: role protection
     if (Auth::user()->role !== 'trader') {
-        abort(403);
+       return view('sudarshanerror');
     }
 
     $recents = Order::where('admin_id', Auth::id())
@@ -153,13 +153,13 @@ public function Addnewvegetable(Request $request)
 
     // Show edit form for a vegetable
     public function edit($id){
-
+        
         $vegetable = Addnewvegetable::find($id);
         return view('admin.editvegetable', compact('vegetable'));
     }
 
         // Update vegetable in database
-    public function updateVegetable(Request $request, $vegetable_id){
+    public function changeupdateAdminVegetable(Request $request, $vegetable_id){
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric',
@@ -189,7 +189,7 @@ public function Addnewvegetable(Request $request)
             return redirect()->route('vegetableslist')->with('success', 'Vegetable updated successfully!');
         }
 
-        return redirect()->back()->with('error', 'Failed to update vegetable.');
+        return view('admin.dashboard');
     }
 
 
