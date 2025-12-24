@@ -57,4 +57,5 @@ Route::controller(SuperAdminController::class)->middleware('superAdmin')->group(
     Route::get('manageVegetables', 'manageVegetables')->name('manageVegetables');
     Route::put('/delete/{vegetable_id}', 'deleteVegetable')->name('superadmin.deleteVegetable');
     Route::put('/changeupdate/{vegetable_id}', 'updateVegetable')->name('superadmin.updateVegetable');
+    Route::get('/superadmin/orders', 'allOrders')->name('superadmin.orders');
 });        

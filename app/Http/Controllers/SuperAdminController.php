@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Addnewvegetable;
+use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 
 class SuperAdminController extends Controller
@@ -107,5 +108,32 @@ class SuperAdminController extends Controller
         }
 
         return redirect()->back()->with('error', 'Failed to update vegetable.');
+    }
+
+    // View all orders from all traders
+    public function allOrders(Request $request){
+        // Only allow superAdmin access
+        if (Auth::user()->role !== 'superAdmin') {
+            return redirect()->route('dashboard')->with('error', 'Access denied.');
+        }
+
+        // Get all vegetables for filter dropdown
+        $vegetables = Addnewvegetable::all();
+
+        // Build query for orders
+        $query = Order::with(['trader', 'vegetable']);
+
+        // Apply filter if vegetable is selected
+        if ($request->has('vegetable') && $request->vegetable != '') {
+            $vegId = Addnewvegetable::where('name', $request->vegetable)->value('vegetable_id');
+            if ($vegId) {
+                $query->where('vegetable_id', $vegId);
+            }
+        }
+
+        // Get all orders
+        $orders = $query->orderBy('created_at', 'desc')->get();
+
+        return view('superadmin.allOrders', compact('orders', 'vegetables'));
     }
 }

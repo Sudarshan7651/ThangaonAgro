@@ -21,4 +21,15 @@ class Order extends Model
     'invoice',
 ];
 
+    // Relationship to User (trader)
+    public function trader()
+    {
+        return $this->belongsTo(User::class, 'admin_id', 'id');
+    }
+
+    // Relationship to Vegetable
+    public function vegetable()
+    {
+        return $this->belongsTo(Addnewvegetable::class, 'vegetable_id', 'vegetable_id');
+    }
 }

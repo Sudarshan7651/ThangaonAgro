@@ -193,6 +193,11 @@
             <i class="fas fa-carrot"></i> 
             <span>Manage Vegetables</span>
         </a>
+
+        <a href="{{ route('superadmin.orders') }}" class="nav-link {{ request()->routeIs('superadmin.orders') ? 'active' : '' }}">
+            <i class="fas fa-shopping-cart"></i> 
+            <span>All Orders</span>
+        </a>
         
         <!-- Add more links here as needed -->
     </div>
