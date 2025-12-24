@@ -6,84 +6,55 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SuperAdminController;
 
 
-Route::get('/sudarshanerror', [UserController::class, 'sudarshanerror'])->name('sudarshanerror');
-
-
-Route::get('/', [UserController::class, 'index'])->name('index');
-
-Route::get('/products', [UserController::class, 'product'])->name('product');
-
-Route::get('/contact', [UserController::class, 'contact'])->name('contact');
-
-Route::get('/about', [UserController::class, 'about'])->name('about');
-
-Route::get('/cart', [UserController::class, 'cart'])->name('cart');
-
-Route::get('/register', [UserController::class, 'register'])->name('register');
-
-Route::get('/login', [UserController::class, 'login'])->name('login');
-
-Route::post('registersave', [UserController::class, 'registersave'])->name('registersave');
-
-Route::get('/orderFormPage/{admin_id}/{vegetable_id}', [UserController::class, 'orderFormPage'])->name('orderFormPage');
-
-Route::post('contractfarming', [UserController::class, 'contractfarming'])->name('contractfarming');
+// User Routes
+Route::controller(UserController::class)->group(function () {
+    Route::get('/sudarshanerror', 'sudarshanerror')->name('sudarshanerror');
+    Route::get('/', 'index')->name('index');
+    Route::get('/products', 'product')->name('product');
+    Route::get('/contact', 'contact')->name('contact');
+    Route::get('/about', 'about')->name('about');
+    Route::get('/cart', 'cart')->name('cart');
+    Route::get('/register', 'register')->name('register');
+    Route::get('/login', 'login')->name('login');
+    Route::post('registersave', 'registersave')->name('registersave');
+    Route::get('/orderFormPage/{admin_id}/{vegetable_id}', 'orderFormPage')->name('orderFormPage');
+    Route::post('contractfarming', 'contractfarming')->name('contractfarming');
+});
 
 
 // Admin Routes
+Route::controller(AdminController::class)->group(function () {
+    Route::get('/addvegetable', 'addvegetable')->name('addvegetable');
+    Route::get('/dashboard', 'dashboard')->name('dashboard');
+    Route::get('/specialOrders', 'specialOrders')->name('specialOrders');
+    Route::get('/vegetableslist', 'vegetableslist')->name('vegetableslist');
+    Route::get('/orders', 'orders')->name('orders');
+    Route::post('logout', 'logout')->name('logout');
+    Route::post('/addnewvegetable', 'addnewvegetable')->name('addnewvegetable');
+    Route::get('/edit/{vegetable_id}', 'edit')->name('edit');
+    Route::put('/changeupdateAdminVegetable/{vegetable_id}', 'changeupdateAdminVegetable')->name('changeupdateAdminVegetable');
+    Route::put('/deletevegetableAdmin/{vegetable_id}', 'deleteVegetable')->name('deletevegetableAdmin');
+    Route::post('loginmatch', 'loginmatch')->name('loginmatch');
+    Route::post('storeOrder', 'storeOrder')->name('storeOrder');
+    Route::post('Specialorder', 'Specialorder')->name('Specialorder');
+    Route::get('/contractFarmingPage', 'contractFarmingPage')->name('contractFarmingPage');
+    Route::get('/confirmOrder/{order_id}', 'confirmOrder')->name('confirmOrder');
+    Route::get('/cancelOrder/{order_id}', 'cancelOrder')->name('cancelOrder');
+    Route::get('/invoice/{order_id}', 'invoice')->name('invoice');
+    
+    // Google Auth
+    Route::get('auth/google', 'googleLogin');
+    Route::get('google/callback', 'googleAuthentication');
+});
 
 
-Route::get('/addvegetable', [AdminController::class, 'addvegetable'])->name('addvegetable');
-
-Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-
-Route::get('/specialOrders', [AdminController::class, 'specialOrders'])->name('specialOrders');
-
-Route::get('/vegetableslist', [AdminController::class, 'vegetableslist'])->name('vegetableslist');
-
-Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
-
-Route::post('logout', [AdminController::class, 'logout'])->name('logout');
-
-Route::post('/addnewvegetable', [AdminController::class, 'addnewvegetable'])->name('addnewvegetable');
-
-Route::get('/edit/{vegetable_id}', [AdminController::class, 'edit'])->name('edit');
-
-Route::put('/changeupdateAdminVegetable/{vegetable_id}', [AdminController::class, 'changeupdateAdminVegetable'])->name('changeupdateAdminVegetable');
-
-Route::put('/deletevegetableAdmin/{vegetable_id}', [AdminController::class, 'deleteVegetable'])->name('deletevegetableAdmin');
-
-Route::post('loginmatch', [AdminController::class, 'loginmatch'])->name('loginmatch');
-
-Route::post('storeOrder', [AdminController::class, 'storeOrder'])->name('storeOrder');
-
-Route::post('Specialorder', [AdminController::class, 'Specialorder'])->name('Specialorder');
-
-Route::get('/contractFarmingPage', [AdminController::class, 'contractFarmingPage'])->name('contractFarmingPage');
-
-Route::get('/confirmOrder/{order_id}', [AdminController::class, 'confirmOrder'])->name('confirmOrder');
-
-Route::get('/cancelOrder/{order_id}', [AdminController::class, 'cancelOrder'])->name('cancelOrder');
-
-Route::get('/invoice/{order_id}', [AdminController::class, 'invoice'])->name('invoice');
-
-
-//super admin
-Route::get('/superadmin/traders', [SuperAdminController::class, 'traders'])->name('superadmin.traders')->middleware('superAdmin');;
-
-Route::get('/superadmin/traders/{id}/edit', [SuperAdminController::class, 'editTrader'])->name('superadmin.traders.edit')->middleware('superAdmin');;
-
-Route::post('/superadmin/traders/{id}/update', [SuperAdminController::class, 'updateTrader'])->name('superadmin.traders.update')->middleware('superAdmin');;
-
-Route::delete('/superadmin/traders/{id}/delete', [SuperAdminController::class, 'deleteTrader'])->name('superadmin.traders.delete')->middleware('superAdmin');;
-
-Route::get('manageVegetables', [SuperAdminController::class, 'manageVegetables'])->name('manageVegetables')->middleware('superAdmin');;
-
-Route::put('/delete/{vegetable_id}', [SuperAdminController::class, 'deleteVegetable'])->name('superadmin.deleteVegetable')->middleware('superAdmin');;
-
-Route::put('/changeupdate/{vegetable_id}', [SuperAdminController::class, 'updateVegetable'])->name('superadmin.updateVegetable')->middleware('superAdmin');;
-
-
-
-Route::get('auth/google', [AdminController::class, 'googleLogin']);
-Route::get('google/callback', [AdminController::class, 'googleAuthentication']);        
+// Super Admin Routes
+Route::controller(SuperAdminController::class)->middleware('superAdmin')->group(function () {
+    Route::get('/superadmin/traders', 'traders')->name('superadmin.traders');
+    Route::get('/superadmin/traders/{id}/edit', 'editTrader')->name('superadmin.traders.edit');
+    Route::post('/superadmin/traders/{id}/update', 'updateTrader')->name('superadmin.traders.update');
+    Route::delete('/superadmin/traders/{id}/delete', 'deleteTrader')->name('superadmin.traders.delete');
+    Route::get('manageVegetables', 'manageVegetables')->name('manageVegetables');
+    Route::put('/delete/{vegetable_id}', 'deleteVegetable')->name('superadmin.deleteVegetable');
+    Route::put('/changeupdate/{vegetable_id}', 'updateVegetable')->name('superadmin.updateVegetable');
+});        
