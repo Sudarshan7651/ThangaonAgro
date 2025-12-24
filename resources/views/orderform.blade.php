@@ -163,6 +163,118 @@
             color: #212529;
         }
 
+        /* Fullscreen Modal */
+        .fullscreen-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .fullscreen-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fullscreen-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90vh;
+            animation: zoomIn 0.3s ease;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .fullscreen-img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            z-index: 10000;
+        }
+
+        .modal-close:hover {
+            background: var(--primary);
+            transform: rotate(90deg);
+        }
+
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            user-select: none;
+        }
+
+        .modal-nav:hover {
+            background: var(--primary);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .modal-prev {
+            left: 30px;
+        }
+
+        .modal-next {
+            right: 30px;
+        }
+
+        .image-counter {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
     </style>
 </head>
 
@@ -220,7 +332,7 @@
                                 <div id="galleryImages" style="display: none;" class="mt-3">
                                     <div class="d-flex flex-wrap gap-2">
                                         @foreach($veg->images as $gallery)
-                                            <img src="{{ asset('vegetable/gallery/' . $gallery->image) }}" class="gallery-img shadow-sm" alt="Gallery Image">
+                                            <img src="{{ asset('vegetable/gallery/' . $gallery->image) }}" class="gallery-img shadow-sm" alt="Gallery Image" onclick="openFullscreen(this.src)">
                                         @endforeach
                                     </div>
                                 </div>
@@ -295,6 +407,19 @@
     </div>
 
 
+    <!-- Fullscreen Image Modal -->
+    <div id="fullscreenModal" class="fullscreen-modal">
+        <span class="modal-close" onclick="closeFullscreen()">&times;</span>
+        <span class="modal-nav modal-prev" onclick="changeImage(-1)"><i class="fas fa-chevron-left"></i></span>
+        <div class="fullscreen-content">
+            <img id="fullscreenImg" class="fullscreen-img" src="" alt="Fullscreen Image">
+        </div>
+        <span class="modal-nav modal-next" onclick="changeImage(1)"><i class="fas fa-chevron-right"></i></span>
+        <div class="image-counter">
+            <span id="currentImage">1</span> / <span id="totalImages">1</span>
+        </div>
+    </div>
+
     @include('layouts.footer')
     @include('layouts.copyright')
 
@@ -321,6 +446,77 @@
                 this.textContent = "View More";
                 this.classList.remove('btn-success');
                 this.classList.add('btn-outline-success');
+            }
+        });
+
+        // Fullscreen Image Functionality
+        let galleryImages = [];
+        let currentIndex = 0;
+
+        // Collect all gallery images when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('.gallery-img');
+            galleryImages = Array.from(images).map(img => img.src);
+        });
+
+        function openFullscreen(imageSrc) {
+            const modal = document.getElementById('fullscreenModal');
+            const img = document.getElementById('fullscreenImg');
+            
+            currentIndex = galleryImages.indexOf(imageSrc);
+            img.src = imageSrc;
+            modal.classList.add('active');
+            
+            updateCounter();
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+
+        function closeFullscreen() {
+            const modal = document.getElementById('fullscreenModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
+        }
+
+        function changeImage(direction) {
+            currentIndex += direction;
+            
+            // Loop around if at ends
+            if (currentIndex >= galleryImages.length) {
+                currentIndex = 0;
+            } else if (currentIndex < 0) {
+                currentIndex = galleryImages.length - 1;
+            }
+            
+            const img = document.getElementById('fullscreenImg');
+            img.style.opacity = '0';
+            
+            setTimeout(() => {
+                img.src = galleryImages[currentIndex];
+                img.style.opacity = '1';
+                updateCounter();
+            }, 150);
+        }
+
+        function updateCounter() {
+            document.getElementById('currentImage').textContent = currentIndex + 1;
+            document.getElementById('totalImages').textContent = galleryImages.length;
+        }
+
+        // Close modal on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeFullscreen();
+            } else if (e.key === 'ArrowLeft') {
+                changeImage(-1);
+            } else if (e.key === 'ArrowRight') {
+                changeImage(1);
+            }
+        });
+
+        // Close modal when clicking outside the image
+        document.getElementById('fullscreenModal')?.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeFullscreen();
             }
         });
     </script>
