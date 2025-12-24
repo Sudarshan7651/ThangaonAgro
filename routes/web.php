@@ -79,11 +79,11 @@ Route::delete('/superadmin/traders/{id}/delete', [SuperAdminController::class, '
 
 Route::get('manageVegetables', [SuperAdminController::class, 'manageVegetables'])->name('manageVegetables')->middleware('superAdmin');;
 
-Route::put('/delete/{vegetable_id}', [SuperAdminController::class, 'deleteVegetable'])->name('delete')->middleware('superAdmin');;
+Route::put('/delete/{vegetable_id}', [SuperAdminController::class, 'deleteVegetable'])->name('superadmin.deleteVegetable')->middleware('superAdmin');;
 
-Route::put('/changeupdate/{vegetable_id}', [SuperAdminController::class, 'updateVegetable'])->name('changeupdate')->middleware('superAdmin');;
+Route::put('/changeupdate/{vegetable_id}', [SuperAdminController::class, 'updateVegetable'])->name('superadmin.updateVegetable')->middleware('superAdmin');;
 
 
 
 Route::get('auth/google', [AdminController::class, 'googleLogin']);
-Route::get('google/callback', [AdminController::class, 'googleAuthentication']);
+Route::get('google/callback', [AdminController::class, 'googleAuthentication']);        
