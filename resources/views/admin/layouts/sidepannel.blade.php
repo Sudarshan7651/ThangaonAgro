@@ -209,6 +209,11 @@
                 <i class="fas fa-tractor"></i> Contract Farming
             </a>
         </li>
+        <li>
+            <a href="{{ route('adminProfile') }}" class="sidebar-link {{ request()->routeIs('adminProfile') ? 'active' : '' }}">
+                <i class="fas fa-user-circle"></i> My Profile
+            </a>
+        </li>
     </ul>
 
     <div class="sidebar-footer">

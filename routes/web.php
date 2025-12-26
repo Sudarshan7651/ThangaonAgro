@@ -38,6 +38,8 @@ Route::controller(AdminController::class)->group(function () {
     Route::post('storeOrder', 'storeOrder')->name('storeOrder');
     Route::post('Specialorder', 'Specialorder')->name('Specialorder');
     Route::get('/contractFarmingPage', 'contractFarmingPage')->name('contractFarmingPage');
+    Route::get('/adminProfile', 'adminProfile')->name('adminProfile');
+    Route::put('/updateProfile', 'updateProfile')->name('updateProfile');
     Route::get('/confirmOrder/{order_id}', 'confirmOrder')->name('confirmOrder');
     Route::get('/cancelOrder/{order_id}', 'cancelOrder')->name('cancelOrder');
     Route::get('/invoice/{order_id}', 'invoice')->name('invoice');

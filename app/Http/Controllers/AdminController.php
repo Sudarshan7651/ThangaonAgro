@@ -69,15 +69,76 @@ class AdminController extends Controller
         return view('admin.vegetableslist', compact('vegetables'));
     }
     
-    public function orders() {
+    public function orders(Request $request) {
 
-       
-
-        $orders=Order::where('admin_id', Auth::id())->get();
+        // Get all vegetables for the dropdown filter
         $vegetables = Addnewvegetable::where('admin_id', Auth::id())->get();
+
+        // Start building the orders query
+        $ordersQuery = Order::where('admin_id', Auth::id());
+
+        // Apply vegetable filter if provided
+        if ($request->has('vegetable') && $request->vegetable != '') {
+            // Get the vegetable_id that matches the name
+            $vegetable = Addnewvegetable::where('admin_id', Auth::id())
+                                       ->where('name', $request->vegetable)
+                                       ->first();
+            
+            if ($vegetable) {
+                $ordersQuery->where('vegetable_id', $vegetable->vegetable_id);
+            }
+        }
+
+        // Apply status filter if provided
+        if ($request->has('status') && $request->status != '') {
+            $ordersQuery->where('status', $request->status);
+        }
+
+        // Get filtered orders
+        $orders = $ordersQuery->get();
 
         return view('admin.orders', compact('orders', 'vegetables'));
 
+    }
+
+    public function adminProfile() {
+        $user = Auth::user();
+        
+        // Get statistics for the admin
+        $totalVegetables = Addnewvegetable::where('admin_id', Auth::id())->count();
+        $totalOrders = Order::where('admin_id', Auth::id())->count();
+        $confirmedOrders = Order::where('admin_id', Auth::id())->where('status', 'confirmed')->count();
+        $pendingOrders = Order::where('admin_id', Auth::id())->where('status', 'pending')->count();
+        
+        return view('admin.adminProfile', compact('user', 'totalVegetables', 'totalOrders', 'confirmedOrders', 'pendingOrders'));
+    }
+
+    public function updateProfile(Request $request) {
+        $user = Auth::user();
+        
+        // Validate based on the field being updated
+        $field = $request->field;
+        $rules = [];
+        
+        if ($field === 'email') {
+            $rules['value'] = 'required|email|unique:users,email,' . $user->id;
+        } elseif ($field === 'mobile') {
+            $rules['value'] = 'required|numeric|digits:10';
+        } elseif ($field === 'businessName') {
+            $rules['value'] = 'required|string|max:255';
+        } elseif ($field === 'address') {
+            $rules['value'] = 'required|string|max:500';
+        } else {
+            return redirect()->back()->with('error', 'Invalid field');
+        }
+        
+        $validated = $request->validate($rules);
+        
+        // Update the user field
+        $user->$field = $validated['value'];
+        $user->save();
+        
+        return redirect()->route('adminProfile')->with('success', ucfirst(str_replace('_', ' ', $field)) . ' updated successfully!');
     }
 
     public function specialOrders() {

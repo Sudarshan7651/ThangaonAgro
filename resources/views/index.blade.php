@@ -218,6 +218,205 @@
             box-shadow: 0 0 0 4px rgba(25, 135, 84, 0.1);
         }
 
+        /* Filter Section Styles */
+        .filter-section {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.04);
+            border: 1px solid rgba(25, 135, 84, 0.1);
+        }
+
+        /* Search Wrapper */
+        .search-wrapper {
+            position: relative;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 16px;
+            z-index: 2;
+        }
+
+        .search-input {
+            padding: 10px 40px 10px 40px !important;
+            border-radius: 50px !important;
+            border: 2px solid #e9ecef;
+            background-color: #fff !important;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.08) !important;
+            padding-right: 40px !important;
+        }
+
+        .clear-search {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            padding: 4px;
+            transition: color 0.3s;
+            z-index: 2;
+            font-size: 14px;
+        }
+
+        .clear-search:hover {
+            color: #dc3545;
+        }
+
+        /* Filter Select */
+        .filter-select {
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            background-color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.08);
+        }
+
+        /* Results Text */
+        .results-text {
+            font-size: 14px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .results-text strong {
+            color: var(--primary);
+            font-size: 16px;
+        }
+
+        /* Clear Filters Button */
+        .clear-filters-btn {
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-weight: 600;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .clear-filters-btn:hover {
+            background-color: #dc3545;
+            color: #fff;
+            border-color: #dc3545;
+        }
+
+        /* Category Pills */
+        .category-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .category-pill {
+            background: #fff;
+            color: #555;
+            border: 2px solid #e9ecef;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+        .category-pill:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(25, 135, 84, 0.15);
+        }
+
+        .category-pill.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+            box-shadow: 0 3px 12px rgba(25, 135, 84, 0.25);
+        }
+
+        .category-pill i {
+            font-size: 12px;
+        }
+
+        /* Product Card Enhancements for Filtering */
+        .product-item {
+            transition: all 0.4s ease;
+        }
+
+        .product-item.hidden {
+            display: none !important;
+        }
+
+        .product-item.fade-out {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        /* No Results Message */
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .no-results i {
+            font-size: 64px;
+            color: #e9ecef;
+            margin-bottom: 20px;
+        }
+
+        .no-results h4 {
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .filter-section {
+                padding: 15px;
+            }
+
+            .category-pills {
+                gap: 8px;
+            }
+
+            .category-pill {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            .results-text {
+                font-size: 13px;
+                width: 100%;
+                margin-bottom: 8px;
+            }
+        }
+
     </style>
 </head>
 
@@ -280,9 +479,76 @@
                 <div style="width: 60px; height: 3px; background: #198754; margin: 15px auto;"></div>
             </div>
 
-            <div class="row g-4">
+            <!-- Filter Section -->
+            <div class="filter-section mb-4 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="row g-3 align-items-center">
+                    <!-- Search Box -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="search-wrapper">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" id="searchInput" class="form-control search-input" placeholder="Search vegetables...">
+                            <button class="clear-search" id="clearSearch" style="display: none;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Sort Dropdown -->
+                    <div class="col-lg-3 col-md-6">
+                        <select id="sortSelect" class="form-select filter-select">
+                            <option value="default">Sort By: Default</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="name-asc">Name: A to Z</option>
+                            <option value="name-desc">Name: Z to A</option>
+                            <option value="stock">Stock Available</option>
+                        </select>
+                    </div>
+
+                    <!-- Results Count & Clear -->
+                    <div class="col-lg-5 col-md-12">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                            <span id="resultsCount" class="results-text">
+                                <i class="fas fa-box-open me-2"></i>Showing <strong>{{ count($vegetables) }}</strong> vegetables
+                            </span>
+                            <button id="clearFilters" class="btn btn-outline-secondary btn-sm clear-filters-btn" style="display: none;">
+                                <i class="fas fa-redo-alt me-2"></i>Clear All Filters
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category Filter Pills -->
+                <div class="category-pills mt-4">
+                    <button class="category-pill active" data-category="all">
+                        <i class="fas fa-th me-2"></i>All Vegetables
+                    </button>
+                    <button class="category-pill" data-category="exotic">
+                        <i class="fas fa-star me-2"></i>Exotic
+                    </button>
+                    <button class="category-pill" data-category="chinese">
+                        <i class="fas fa-leaf me-2"></i>Chinese
+                    </button>
+                    <button class="category-pill" data-category="leafy">
+                        <i class="fas fa-seedling me-2"></i>Leafy Greens
+                    </button>
+                    <button class="category-pill" data-category="root">
+                        <i class="fas fa-carrot me-2"></i>Root Vegetables
+                    </button>
+                    <button class="category-pill" data-category="fruiting">
+                        <i class="fas fa-pepper-hot me-2"></i>Fruiting Vegetables
+                    </button>
+                </div>
+            </div>
+
+            <div class="row g-4" id="productsGrid">
                 @foreach($vegetables as $veg)
-                <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp product-item" 
+                     data-wow-delay="0.1s"
+                     data-name="{{ strtolower($veg->name) }}"
+                     data-price="{{ $veg->price }}"
+                     data-stock="{{ $veg->quantity }}"
+                     data-category="{{ strtolower($veg->category ?? 'other') }}">
                     <div class="product-card h-100" onclick="location.href='{{ route('orderFormPage', [$veg->admin_id, $veg->vegetable_id ]) }}'">
                         
                         <div class="posted-tag">
@@ -320,6 +586,13 @@
                     <p class="text-muted mt-3">No vegetables available at the moment. Please check back later.</p>
                 </div>
                 @endif
+            </div>
+
+            <!-- No Results Message (for filtering) -->
+            <div id="noResultsMessage" class="no-results" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h4>No vegetables found</h4>
+                <p>Try adjusting your filters or search terms</p>
             </div>
 
              <div class="text-center mt-5">
@@ -420,6 +693,186 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+
+    <script>
+        // Product Filtering System
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const clearSearchBtn = document.getElementById('clearSearch');
+            const sortSelect = document.getElementById('sortSelect');
+            const categoryPills = document.querySelectorAll('.category-pill');
+            const clearFiltersBtn = document.getElementById('clearFilters');
+            const productsGrid = document.getElementById('productsGrid');
+            const resultsCount = document.getElementById('resultsCount');
+            const noResultsMessage = document.getElementById('noResultsMessage');
+            
+            let currentCategory = 'all';
+            let currentSearchTerm = '';
+            let currentSort = 'default';
+
+            // Search Input
+            searchInput.addEventListener('input', function(e) {
+                currentSearchTerm = e.target.value.toLowerCase().trim();
+                
+                if (currentSearchTerm.length > 0) {
+                    clearSearchBtn.style.display = 'block';
+                    clearFiltersBtn.style.display = 'inline-block';
+                } else {
+                    clearSearchBtn.style.display = 'none';
+                    checkClearButtonVisibility();
+                }
+                
+                filterProducts();
+            });
+
+            // Clear Search
+            clearSearchBtn.addEventListener('click', function() {
+                searchInput.value = '';
+                currentSearchTerm = '';
+                clearSearchBtn.style.display = 'none';
+                checkClearButtonVisibility();
+                filterProducts();
+            });
+
+            // Category Pills
+            categoryPills.forEach(pill => {
+                pill.addEventListener('click', function() {
+                    // Remove active class from all pills
+                    categoryPills.forEach(p => p.classList.remove('active'));
+                    
+                    // Add active class to clicked pill
+                    this.classList.add('active');
+                    
+                    currentCategory = this.dataset.category;
+                    
+                    if (currentCategory !== 'all') {
+                        clearFiltersBtn.style.display = 'inline-block';
+                    } else {
+                        checkClearButtonVisibility();
+                    }
+                    
+                    filterProducts();
+                });
+            });
+
+            // Sort Select
+            sortSelect.addEventListener('change', function() {
+                currentSort = this.value;
+                
+                if (currentSort !== 'default') {
+                    clearFiltersBtn.style.display = 'inline-block';
+                } else {
+                    checkClearButtonVisibility();
+                }
+                
+                sortProducts();
+                filterProducts();
+            });
+
+            // Clear All Filters
+            clearFiltersBtn.addEventListener('click', function() {
+                // Reset search
+                searchInput.value = '';
+                currentSearchTerm = '';
+                clearSearchBtn.style.display = 'none';
+                
+                // Reset category
+                currentCategory = 'all';
+                categoryPills.forEach(p => p.classList.remove('active'));
+                document.querySelector('.category-pill[data-category="all"]').classList.add('active');
+                
+                // Reset sort
+                currentSort = 'default';
+                sortSelect.value = 'default';
+                
+                this.style.display = 'none';
+                
+                filterProducts();
+            });
+
+            // Filter Products Function
+            function filterProducts() {
+                const products = productsGrid.querySelectorAll('.product-item');
+                let visibleCount = 0;
+
+                products.forEach(product => {
+                    const name = product.dataset.name || '';
+                    const category = product.dataset.category || '';
+                    
+                    let showProduct = true;
+
+                    // Search filter
+                    if (currentSearchTerm && !name.includes(currentSearchTerm)) {
+                        showProduct = false;
+                    }
+
+                    // Category filter
+                    if (currentCategory !== 'all') {
+                        if (!category.includes(currentCategory)) {
+                            showProduct = false;
+                        }
+                    }
+
+                    // Show/Hide product with animation
+                    if (showProduct) {
+                        product.classList.remove('hidden');
+                        visibleCount++;
+                    } else {
+                        product.classList.add('hidden');
+                    }
+                });
+
+                // Update results count
+                updateResultsCount(visibleCount);
+
+                // Show/hide no results message
+                if (visibleCount === 0) {
+                    noResultsMessage.style.display = 'block';
+                    productsGrid.style.display = 'none';
+                } else {
+                    noResultsMessage.style.display = 'none';
+                    productsGrid.style.display = 'flex';
+                }
+            }
+
+            // Sort Products Function
+            function sortProducts() {
+                const products = Array.from(productsGrid.querySelectorAll('.product-item'));
+                
+                products.sort((a, b) => {
+                    switch(currentSort) {
+                        case 'price-low':
+                            return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+                        case 'price-high':
+                            return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
+                        case 'name-asc':
+                            return a.dataset.name.localeCompare(b.dataset.name);
+                        case 'name-desc':
+                            return b.dataset.name.localeCompare(a.dataset.name);
+                        case 'stock':
+                            return parseFloat(b.dataset.stock) - parseFloat(a.dataset.stock);
+                        default:
+                            return 0;
+                    }
+                });
+
+                // Reorder products in DOM
+                products.forEach(product => productsGrid.appendChild(product));
+            }
+
+            // Update Results Count
+            function updateResultsCount(count) {
+                resultsCount.innerHTML = `<i class="fas fa-box-open me-2"></i>Showing <strong>${count}</strong> vegetables`;
+            }
+
+            // Check if Clear Button should be visible
+            function checkClearButtonVisibility() {
+                if (currentSearchTerm.length === 0 && currentCategory === 'all' && currentSort === 'default') {
+                    clearFiltersBtn.style.display = 'none';
+                }
+            }
+        });
+    </script>
 
 </body>
 </html>

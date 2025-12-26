@@ -89,7 +89,77 @@
         @media (max-width: 768px) {
             .content { padding: 15px; }
             .btn-text { display: none; }
+            
+            /* Make filters more compact on mobile */
+            .input-group {
+                width: 140px !important;
+            }
+            
+            .badge {
+                font-size: 0.75rem !important;
+                padding: 0.35rem 0.5rem !important;
+            }
+            
+            .text-muted.small {
+                font-size: 0.75rem !important;
+            }
         }
+
+        @media (max-width: 576px) {
+            .input-group {
+                width: 120px !important;
+            }
+            
+            .input-group-text {
+                padding: 0.375rem 0.5rem;
+            }
+            
+            .form-select {
+                font-size: 0.85rem;
+                padding: 0.375rem 0.5rem;
+            }
+        }
+
+        /* Filter Badges */
+        .badge {
+            font-size: 0.85rem;
+            font-weight: 500;
+            animation: fadeInScale 0.3s ease-in-out;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Clear Filter Button */
+        .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: white;
+            transform: translateY(-1px);
+            transition: all 0.2s;
+        }
+
+        /* Input Groups */
+        .input-group-text {
+            font-size: 0.9rem;
+        }
+
+        .form-select {
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .form-select:hover {
+            background-color: #f8f9fa;
+        }
+    
     </style>
 </head>
 
@@ -104,21 +174,69 @@
         <div class="card p-4">
 
             <!-- Filter Section -->
-            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-                <form action="{{ route('orders') }}" method="GET" class="d-flex align-items-center gap-2">
-                    <div class="input-group">
-                        <span class="input-group-text bg-light text-muted border-end-0"><i class="fas fa-filter"></i></span>
-                        <select name="vegetable" id="vegetable_filter" class="form-select border-start-0 ps-0" style="max-width: 200px;" onchange="this.form.submit()">
-                            <option value="">All Vegetables</option>
-                            @foreach($vegetables as $veg)
-                                <option value="{{ $veg->name }}" {{ request('vegetable') == $veg->name ? 'selected' : '' }}>
-                                    {{ $veg->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary px-3 d-none d-md-inline-block">Filter</button>
-                </form>
+            <div class="d-flex justify-content-between align-items-center mb-4 gap-3">
+                <div class="d-flex align-items-center gap-2">
+                    <form action="{{ route('orders') }}" method="GET" class="d-flex align-items-center gap-2" id="filterForm">
+                        <!-- Vegetable Filter -->
+                        <div class="input-group" style="width: 180px;">
+                            <span class="input-group-text bg-light text-muted border-end-0"><i class="fas fa-carrot"></i></span>
+                            <select name="vegetable" id="vegetable_filter" class="form-select border-start-0 ps-0" onchange="this.form.submit()">
+                                <option value="">All Vegetables</option>
+                                @foreach($vegetables as $veg)
+                                    <option value="{{ $veg->name }}" {{ request('vegetable') == $veg->name ? 'selected' : '' }}>
+                                        {{ $veg->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Status Filter -->
+                        <div class="input-group" style="width: 160px;">
+                            <span class="input-group-text bg-light text-muted border-end-0"><i class="fas fa-tasks"></i></span>
+                            <select name="status" id="status_filter" class="form-select border-start-0 ps-0" onchange="this.form.submit()">
+                                <option value="">All Status</option>
+                                <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                                <option value="confirmed" {{ request('status') == 'confirmed' ? 'selected' : '' }}>Confirmed</option>
+                                <option value="canceled" {{ request('status') == 'canceled' ? 'selected' : '' }}>Canceled</option>
+                            </select>
+                        </div>
+                    </form>
+                    
+                    @if(request('vegetable') || request('status'))
+                        <a href="{{ route('orders') }}" class="btn btn-outline-secondary btn-sm px-3" title="Clear All Filters">
+                            <i class="fas fa-times"></i>
+                        </a>
+                        
+                        @if(request('vegetable'))
+                            <span class="badge bg-success text-white px-2 py-2">
+                                <i class="fas fa-carrot me-1"></i> {{ request('vegetable') }}
+                            </span>
+                        @endif
+                        @if(request('status'))
+                            @php
+                                $statusColor = 'secondary';
+                                $statusIcon = 'fa-circle';
+                                if(request('status') == 'confirmed') {
+                                    $statusColor = 'success';
+                                    $statusIcon = 'fa-check-circle';
+                                } elseif(request('status') == 'pending') {
+                                    $statusColor = 'warning';
+                                    $statusIcon = 'fa-clock';
+                                } elseif(request('status') == 'canceled') {
+                                    $statusColor = 'danger';
+                                    $statusIcon = 'fa-times-circle';
+                                }
+                            @endphp
+                            <span class="badge bg-{{ $statusColor }} text-white px-2 py-2">
+                                <i class="fas {{ $statusIcon }} me-1"></i> {{ ucfirst(request('status')) }}
+                            </span>
+                        @endif
+                    @endif
+                </div>
+                
+                <div class="text-muted small text-nowrap">
+                    <i class="fas fa-shopping-cart me-1"></i> Total: <strong>{{ $orders->count() }}</strong>
+                </div>
             </div>
 
             <div class="table-responsive">
